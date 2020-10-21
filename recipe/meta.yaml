@@ -12,7 +12,10 @@ source:
 build:
   skip: true   # [py<37]
   number: 1
-
+  ignore_run_exports:
+    - libwebp  # [win]
+    - jpeg     # [win]
+    - jxrlib   # [win]
 requirements:
   build:
     - python                                 # [build_platform != target_platform]
@@ -21,8 +24,10 @@ requirements:
     - numpy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - pkg-config
+    - pkg-config  # [not win]
+    - m2w64-toolchain  # [win]
   host:
+    - m2w64-pkg-config  # [win]
     - python
     - pip
     - numpy
@@ -39,7 +44,7 @@ requirements:
     - giflib
     - openjpeg
     - blosc
-    - lcms2
+    - lcms2  # [not win32]
     - libaec
     - brotli
     - libzopfli
