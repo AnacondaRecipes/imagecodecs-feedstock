@@ -1,4 +1,5 @@
 import os
+import platform
 import sys
 from distutils.version import LooseVersion
 
@@ -42,3 +43,11 @@ def customize_build(EXTENSIONS, OPTIONS):
             os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
         ]
         EXTENSIONS['jpegxr']['libraries'] = ['jpegxr', 'jxrglue']
+
+    if platform.machine() == 's390x':
+        # These extensions seem to be broken and trigger test failures S390X,
+        # even though the libraries they use pass all their tests.
+        del EXTENSIONS['lerc']      # all tests fail
+        del EXTENSIONS['zfp']       # all tests fail
+        del EXTENSIONS['jpegls']    # encode/decode tests pass; round-trip tests fail
+        del EXTENSIONS['jpegxl']    # encode/decode tests fail; round-trip tests pass
