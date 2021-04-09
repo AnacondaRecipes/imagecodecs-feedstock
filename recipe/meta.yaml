@@ -1,5 +1,5 @@
 {% set name = "imagecodecs" %}
-{% set version = "2021.1.11" %}
+{% set version = "2021.3.31" %}
 
 package:
   name: {{ name|lower }}
@@ -7,16 +7,17 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8347702b2a25fe0f05f5084965e8834c583576f8129d70439c46437d2bb9f9af
+  sha256: 20de74033058105ef07218bf7ab2ec550c05a3e6bd5581d9daa6346e16d5f760
 
 build:
   # these are no longer supported.
   skip: true   # [py<37 or win32]
-  number: 2
+  number: 0
   ignore_run_exports:
     - libwebp  # [win]
     - jpeg     # [win]
     - jxrlib   # [win]
+
 requirements:
   build:
     # - python                                 # [build_platform != target_platform]
