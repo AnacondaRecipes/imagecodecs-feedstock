@@ -83,8 +83,9 @@ test:
     - imagecodecs._imagecodecs
   commands:
     - cd tests
-    - pytest -vv test_imagecodecs.py         [not (linux and aarch64)]
-    - python test_imagecodecs.py             [linux and aarch64]
+      # TODO: determine why OpenMP on Windows build workers is unreliable
+    - set SKIP_OMP=true                 [win]
+    - pytest -vv test_imagecodecs.py
   #   - python ensure_jpegturbo_imagecodecs_plays_nicely_with_jpeg9.py 0
   #   - python ensure_jpegturbo_imagecodecs_plays_nicely_with_jpeg9.py 1
 
