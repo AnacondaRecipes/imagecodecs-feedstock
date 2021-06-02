@@ -34,7 +34,8 @@ requirements:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
     - python
-    - pip
+    - pip >= 19.3  # [linux]
+    - pip  # [not linux]
     - numpy-devel {{ numpy }}
     - cython
     - zlib
@@ -61,6 +62,7 @@ requirements:
     - zfp             # [not s390x]
     - libdeflate
     - brunsli         # [not win and not s390x]
+    - cfitsio         # [not s390x]
     # While jpeg-turbo is the preferred version upstream, the migration
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
