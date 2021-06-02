@@ -34,7 +34,7 @@ requirements:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
     - python
-    - pip >= 19.3  # [linux]
+    - pip >=19.3  # [linux]
     - pip  # [not linux]
     - numpy-devel {{ numpy }}
     - cython
