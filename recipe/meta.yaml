@@ -65,6 +65,7 @@ requirements:
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
     - cfitsio
+    - wheel
   run:
     - python
     # Work around missing `run_exports` in defaults package
