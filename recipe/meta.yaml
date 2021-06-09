@@ -64,6 +64,7 @@ requirements:
     # While jpeg-turbo is the preferred version upstream, the migration
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
+    - cfitsio
   run:
     - python
     # Work around missing `run_exports` in defaults package
