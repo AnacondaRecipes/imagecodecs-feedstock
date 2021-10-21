@@ -12,7 +12,7 @@ source:
 build:
   # these are no longer supported.
   skip: true   # [py<37 or win32]
-  number: 0
+  number: 1
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
