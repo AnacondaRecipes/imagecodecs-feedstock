@@ -1,0 +1,19 @@
+diff --git a/setup.py b/setup.py
+index 0f70bdf..2cf8d8f 100644
+--- a/setup.py
++++ b/setup.py
+@@ -433,6 +433,14 @@ def customize_build_cf(EXTENSIONS, OPTIONS):
+         ]
+         EXTENSIONS['jpegxr']['libraries'] = ['jpegxr', 'jxrglue']
+ 
++    if platform.machine() == 's390x':
++        # These extensions seem to be broken and trigger test failures S390X,
++        # even though the libraries they use pass all their tests.
++        del EXTENSIONS['lerc']      # all tests fail
++        del EXTENSIONS['zfp']       # all tests fail
++        del EXTENSIONS['jpegls']    # encode/decode tests pass; round-trip tests fail
++        del EXTENSIONS['brunsli']
++
+ 
+ def customize_build_macports(EXTENSIONS, OPTIONS):
+     """Customize build for MacPorts."""

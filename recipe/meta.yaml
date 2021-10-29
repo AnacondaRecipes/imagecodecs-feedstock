@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 4b2799ee39a3bc465d2068b70dc6eb643aa4817435d3ef38cc087f5e863dc9da
+  patches:
+    - 0001-patch-setup-for-s390x.patch    # [s390x]
 
 build:
   # these are no longer supported.
@@ -30,6 +32,7 @@ requirements:
     - {{ compiler('cxx') }}
     - pkg-config  # [not win]
     - m2w64-toolchain  # [win]
+    - patch   # [s390x]
   host:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
