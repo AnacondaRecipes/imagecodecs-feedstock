@@ -10,7 +10,7 @@ source:
   sha256: e87994d918ea951a589ec46648c24d9c7e56b7b5c2466d93f3b07883f0ecea19
   patches:
     - 0001-remove-blosc2-codec.patch
-    - 0002-patch-s390x-codecs.patch     # [s390x]
+    - 0002-patch-aarch64-s390x-codecs.patch   # [s390x or aarch64]
 
 build:
   # these are no longer supported.
@@ -64,7 +64,7 @@ requirements:
     - snappy
     - libtiff
     - lerc 3          # [not s390x]
-    - zfp             # [not s390x]
+    - zfp             # [not (s390x or aarch64)]
     - libdeflate
     - brunsli         # [not win and not s390x]
     # While jpeg-turbo is the preferred version upstream, the migration
