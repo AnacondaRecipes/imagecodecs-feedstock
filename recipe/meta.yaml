@@ -19,7 +19,7 @@ build:
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
-    - libwebp  # [win]
+    - libwebp  # [win or (osx and arm64)]
     - jpeg     # [win]
     - jxrlib   # [win]
 
@@ -51,6 +51,7 @@ requirements:
     - lz4-c >=1.9.3         # [win]
     - libpng
     - libwebp
+    - libwebp-base          # [osx and arm64]
     - jxrlib
     - jpeg
     - giflib
