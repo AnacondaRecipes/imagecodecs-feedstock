@@ -40,8 +40,8 @@ requirements:
     - m2w64-pkg-config  # [win]
     - python
     - pip
-    - numpy-devel {{ numpy }}  # [not (osx and arm64)]
-    - numpy {{ numpy }}        # [osx and arm64]
+    - numpy-devel {{ numpy }}  # [not (osx and arm64) and py<=39]
+    - numpy {{ numpy }}        # [(osx and arm64) or py>39]
     - cython
     - zlib
     - bzip2
