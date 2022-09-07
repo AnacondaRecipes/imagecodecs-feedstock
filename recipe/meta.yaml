@@ -35,6 +35,7 @@ requirements:
     - m2w64-toolchain  # [win]
     - patch            # [unix]
     - m2-patch         # [win]
+    - setuptools >=18.0
   host:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
