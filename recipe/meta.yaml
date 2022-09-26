@@ -78,7 +78,6 @@ requirements:
   run:
     - python
     # Work around missing `run_exports` in defaults package
-    - {{ pin_compatible('brotli', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
 
 test:
