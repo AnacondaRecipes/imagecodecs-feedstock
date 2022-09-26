@@ -79,8 +79,6 @@ requirements:
     - python
     # Work around missing `run_exports` in defaults package
     - {{ pin_compatible('numpy') }}
-    - {{ pin_compatible('libbrotlienc') }}
-    - {{ pin_compatible('libbrotlidec') }}
 
 test:
   source_files:
