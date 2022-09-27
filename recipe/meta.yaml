@@ -36,7 +36,7 @@ requirements:
     - patch            # [unix]
     - m2-patch         # [win]
     - setuptools >=18.0
-  ignore-run-exports:
+  ignore_run_exports:
     - libbrotli-common
   host:
     - setuptools >=18.0
