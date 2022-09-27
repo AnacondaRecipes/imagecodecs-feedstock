@@ -22,6 +22,7 @@ build:
     - libwebp  # [win or (osx and arm64)]
     - jpeg     # [win]
     - jxrlib   # [win]
+    - libbrotlicommon
 
 requirements:
   build:
@@ -36,8 +37,7 @@ requirements:
     - patch            # [unix]
     - m2-patch         # [win]
     - setuptools >=18.0
-  ignore_run_exports:
-    - libbrotlicommon
+
   host:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
