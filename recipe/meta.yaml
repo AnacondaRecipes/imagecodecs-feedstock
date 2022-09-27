@@ -37,7 +37,7 @@ requirements:
     - m2-patch         # [win]
     - setuptools >=18.0
   ignore_run_exports:
-    - libbrotli-common
+    - libbrotlicommon
   host:
     - setuptools >=18.0
     - m2w64-pkg-config  # [win]
