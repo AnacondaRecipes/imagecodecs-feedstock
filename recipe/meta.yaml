@@ -22,7 +22,6 @@ build:
     - libwebp  # [win or (osx and arm64)]
     - jpeg     # [win]
     - jxrlib   # [win]
-    - libbrotlicommon
 
 requirements:
   build:
@@ -62,9 +61,7 @@ requirements:
     - blosc
     - lcms2  # [not win32]
     - libaec
-    - libbrotlienc
-    - libbrotlidec
-    - libbrotlicommon
+    - brotli
     - libzopfli
     - charls          # [not s390x]
     - snappy
@@ -82,9 +79,7 @@ requirements:
     - python
     # Work around missing `run_exports` in defaults package
     - {{ pin_compatible('numpy') }}
-    - {{ pin_compatible('libbrotlienc') }}
-    - {{ pin_compatible('libbrotlidec') }}
-    - {{ pin_compatible('libbrotlicommon') }}
+    - {{ pin_compatible('brotli') }}
 
 test:
   source_files:
