@@ -22,6 +22,8 @@ build:
     - libwebp  # [win or (osx and arm64)]
     - jpeg     # [win]
     - jxrlib   # [win]
+    - brotli
+    - libbrotlicommon
 
 requirements:
   build:
