@@ -106,7 +106,7 @@ test:
     - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None]"  #[not s390x]
     - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None] and not test_packints_decode and not test_floatpred and not test_float24 and not test_jpegsof3 and not test_image_roundtrips"  #[s390x]
 
-    # CAPTURING FAILING S390x tests to be reviewed later
+    # CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
     - pytest -vv test_imagecodecs.py -k "test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips" || true  #[s390x]
 
   #   - python ensure_jpegturbo_imagecodecs_plays_nicely_with_jpeg9.py 0
