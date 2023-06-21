@@ -27,8 +27,7 @@ requirements:
     - {{ compiler('cxx') }}
     - pkg-config
     - m2w64-toolchain  # [win]
-    - patch            # [unix]
-    - m2-patch         # [win]
+    - patch            # [s390x or aarch64]
   host:
     - setuptools
     # - m2w64-pkg-config 0.29.1  # [win]
