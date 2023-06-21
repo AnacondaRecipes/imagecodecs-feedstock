@@ -61,6 +61,7 @@ requirements:
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
     - cfitsio 3.470
+    - libavif 0.11.1
     - wheel
   run:
     - libdeflate >=1.17,<1.18.0a0
