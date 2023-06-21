@@ -31,13 +31,12 @@ requirements:
     # - m2w64-pkg-config 0.29.1  # [win]
     - python
     - pip
-    - numpy-devel {{ numpy }}  # [not (osx and arm64) and py<=39]
-    - numpy {{ numpy }}        # [(osx and arm64) or py>39]
+    - numpy 1.24
     - cython 0.29.35
     - zlib {{ zlib }}
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
-    - zstd {{ zstd }}
+    - zstd 1.5.5
     - lz4-c 1.9.4
     - libpng {{ libpng }}
     - libwebp {{ libwebp }}
