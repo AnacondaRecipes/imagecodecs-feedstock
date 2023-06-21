@@ -1,5 +1,5 @@
 {% set name = "imagecodecs" %}
-{% set version = "2021.8.26" %}
+{% set version = "2023.1.23" %}
 
 package:
   name: {{ name|lower }}
@@ -7,15 +7,14 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: e87994d918ea951a589ec46648c24d9c7e56b7b5c2466d93f3b07883f0ecea19
+  sha256: 1b4591839a2f5c90467e50ebe54117cbd9be42c18864abdf85fc7743223ac5b2
   patches:
     - 0001-remove-blosc2-codec.patch
     - 0002-patch-aarch64-s390x-codecs.patch   # [s390x or aarch64]
 
 build:
-  # these are no longer supported.
-  skip: true   # [py<37 or win32]
-  number: 2
+  skip: true   # [py<38]
+  number: 0
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
 
@@ -28,42 +27,42 @@ requirements:
     - patch            # [unix]
     - m2-patch         # [win]
   host:
-    - setuptools >=18.0
-    - m2w64-pkg-config  # [win]
+    # - setuptools
+    # - m2w64-pkg-config 0.29.1  # [win]
     - python
     - pip
     - numpy-devel {{ numpy }}  # [not (osx and arm64) and py<=39]
     - numpy {{ numpy }}        # [(osx and arm64) or py>39]
-    - cython
-    - zlib
-    - bzip2
-    - xz
-    - zstd
-    - lz4-c                 # [not win]
-    - lz4-c >=1.9.3         # [win]
-    - libpng
-    - libwebp
-    - libwebp-base
-    - jxrlib
-    - jpeg
-    - giflib
-    - openjpeg
-    - blosc
-    - lcms2  # [not win32]
-    - libaec
-    - brotli
-    - libzopfli
-    - charls          # [not s390x]
-    - snappy
+    - cython 0.29.35
+    - zlib {{ zlib }}
+    - bzip2 {{ bzip2 }}
+    - xz {{ xz }}
+    - zstd {{ zstd }}
+    - lz4-c 1.9.4
+    - libpng {{ libpng }}
+    - libwebp {{ libwebp }}
+    - libwebp-base 1.2.4
+    - jxrlib 1.1
+    - jpeg {{ jpeg }}
+    - giflib {{ giflib }}
+    - openjpeg {{ openjpeg }}
+    - blosc 1.21.3
+    - c-blosc2 2.8.0
+    - lcms2 2.12               # [not win32]
+    - libaec 1.0.4
+    - brotli 1.0.9
+    - libzopfli 1.0.3
+    - charls 2.2.0            # [not s390x]
+    - snappy 1.1.9
     - libtiff 4.5.0
-    - lerc 3          # [not s390x]
-    - zfp             # [not (s390x or aarch64)]
+    - lerc 3                  # [not s390x]
+    - zfp 1.0.0               # [not (s390x or aarch64)]
     - libdeflate 1.17
-    - brunsli         # [not win and not s390x]
+    - brunsli 0.1             # [not win and not s390x]
     # While jpeg-turbo is the preferred version upstream, the migration
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
-    - cfitsio
+    - cfitsio 3.470
     - wheel
   run:
     - libdeflate >=1.17,<1.18.0a0
@@ -76,6 +75,7 @@ test:
   source_files:
     - tests
   requires:
+    - pip
     - pytest
   # TODO: add these tests when we start to include builds with turbo
   # files:
@@ -88,6 +88,7 @@ test:
     - imagecodecs
     - imagecodecs._imagecodecs
   commands:
+    - pip check
     - cd tests
       # TODO: determine why OpenMP on Windows build workers is unreliable
     - set SKIP_OMP=true                 [win]
@@ -103,7 +104,7 @@ test:
   #   - python ensure_jpegturbo_imagecodecs_plays_nicely_with_jpeg9.py 1
 
 about:
-  home: https://www.lfd.uci.edu/~gohlke/
+  home: https://www.cgohlke.com
   license: BSD-3-Clause
   license_family: BSD
   license_file:
@@ -122,7 +123,7 @@ about:
     JPEG 12-bit, JPEG SOF=0xC3, JPEG 2000, JPEG XR, PackBits, Packed Integers,
     Delta, XOR Delta, Floating Point Predictor, and Bitorder reversal.
 
-  doc_url: https://www.lfd.uci.edu/~gohlke/
+  doc_url: https://www.cgohlke.com
   dev_url: https://github.com/cgohlke/imagecodecs
 
 extra:
