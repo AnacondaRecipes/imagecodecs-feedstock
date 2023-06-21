@@ -49,7 +49,7 @@ requirements:
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
-    - c-blosc2 2.8.0
+    # - c-blosc2 2.8.0
     - lcms2 2.12               # [not win32]
     - libaec 1.0.4
     - brotli 1.0.9
