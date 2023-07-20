@@ -17,6 +17,9 @@ build:
   number: 0
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
+  ignore_run_exports:
+    - brotli
+    - libbrotlicommon
 
 requirements:
   build:
@@ -31,6 +34,7 @@ requirements:
     # - m2w64-pkg-config 0.29.1  # [win]
     - python
     - pip
+    - wheel
     - numpy {{ numpy }}
     - cython 0.29.35
     - zlib {{ zlib }}
@@ -46,7 +50,7 @@ requirements:
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
-    - lcms2 2.12               # [not win32]
+    - lcms2 2.12              # [not win32]
     - libaec 1.0.4
     - brotli 1.0.9
     - libzopfli 1.0.3
@@ -62,12 +66,12 @@ requirements:
     # - libjpeg-turbo
     - cfitsio 3.470
     - libavif 0.11.1
-    - wheel
+
   run:
     - libdeflate >=1.17,<1.18.0a0
     - python
     # Work around missing `run_exports` in defaults package
-    - "{{ pin_compatible('brotli', max_pin='x.x') }}"
+    - {{ pin_compatible('brotli', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
 
 test:
@@ -90,7 +94,7 @@ test:
     - pip check
     - cd tests
       # TODO: determine why OpenMP on Windows build workers is unreliable
-    - set SKIP_OMP=true                 [win]
+    - set SKIP_OMP=true                # [win]
     # https://github.com/conda-forge/imagecodecs-feedstock/pull/32#issuecomment-863041029
     - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None]"  #[not s390x]
     - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None] and not test_packints_decode and not test_floatpred and not test_float24 and not test_jpegsof3 and not test_image_roundtrips"  #[s390x]
