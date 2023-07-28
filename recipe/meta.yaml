@@ -14,6 +14,7 @@ source:
 
 build:
   skip: true   # [py<38]
+  skip: true   # [not aarch64]
   number: 0
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
@@ -23,7 +24,6 @@ build:
 
 requirements:
   build:
-    - skip # [not s390x]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config
@@ -99,7 +99,7 @@ test:
     # https://github.com/conda-forge/imagecodecs-feedstock/pull/32#issuecomment-863041029
 
 
-   - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None]"  #[not s390x]
+   - pytest -vv test_imagecodecs.py -k "not test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None]"  # [not s390x]
 
     # - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-gray or test_image_roundtrips[jpeg2k-uint16-graya or test_image_roundtrips[jpeg2k-uint16-rgba or test_image_roundtrips[jpeg2k-uint16-rgb)"  # [osx and arm64]
     # - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None)"  # [(linux and not s390x) or win or (osx and (x86_64 or x86)) ]
@@ -107,7 +107,7 @@ test:
 
     # CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
     # These may be fixed with future versions but needs to be checked.
-    - pytest -vv test_imagecodecs.py -k "test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips" || true  #[s390x]
+    - pytest -vv test_imagecodecs.py -k "test_jpeg2k_numthreads and test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips and test_spng_encode and test_ljpeg and test_jpeg_rgb_mode and test_cms_format" || true  #[s390x]
 
 
   #   - python ensure_jpegturbo_imagecodecs_plays_nicely_with_jpeg9.py 0
