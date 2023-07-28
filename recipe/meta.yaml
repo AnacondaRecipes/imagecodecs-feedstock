@@ -14,7 +14,7 @@ source:
 
 build:
   skip: true   # [py<38]
-  skip: true   # [not aarch64]
+  skip: true   # [not (osx and (x86_64 or x86))]
   number: 0
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
