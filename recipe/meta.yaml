@@ -14,7 +14,6 @@ source:
 
 build:
   skip: true   # [py<38]
-  skip: true   # [not win]
   number: 0
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
@@ -27,12 +26,10 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config
-    # - m2w64-toolchain  # [win]
     - patch       # [not win]
     - m2-patch    # [win]
   host:
     - setuptools
-    # - m2w64-pkg-config 0.29.1  # [win]
     - python
     - pip
     - wheel
