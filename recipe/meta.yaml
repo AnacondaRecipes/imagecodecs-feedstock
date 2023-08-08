@@ -22,7 +22,7 @@ build:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
     # Windows build needs brotli but does not use this one
-    - libbrotlicommon   # [win]
+    - libbrotlicommon   # [win or s390x]
     # jxrlib for win is only built as static
     - jxrlib            # [win]
 
@@ -55,9 +55,9 @@ requirements:
     - blosc 1.21.3
     - lcms2 2.12
     - libaec 1.0.4
-    - libbrotlidec 1.0.9      # [not win]
-    - libbrotlienc 1.0.9      # [not win]
-    - brotli 1.0.9            # [win]
+    - libbrotlidec 1.0.9      # [not (win or s390x)]
+    - libbrotlienc 1.0.9      # [not (win or s390x)]
+    - brotli 1.0.9            # [win or s390x]
     - libzopfli 1.0.3
     - charls 2.2.0            # [not s390x]
     - snappy 1.1.9
