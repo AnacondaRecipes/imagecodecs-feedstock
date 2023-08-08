@@ -1,0 +1,12 @@
+diff --git a/setup.py b/setup.py
+--- a/setup.py
++++ b/setup.py
+@@ -145,7 +145,7 @@ EXTENSIONS = {
+         libraries=['openjp2', 'lcms2'],
+     ),
+     'jpeg8': ext(
+-        libraries=['jpeg'],
++        libraries=['libjpeg'],
+         cython_compile_time_env={'HAVE_LIBJPEG_TURBO': True},
+     ),
+     'jpeg12': ext(

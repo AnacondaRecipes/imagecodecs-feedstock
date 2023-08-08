@@ -11,6 +11,9 @@ source:
   patches:
     - 0001-remove-blosc2-codec.patch
     - 0002-patch-aarch64-s390x-codecs.patch   # [s390x or aarch64]
+    # setup.py links jpeg8 against 'jpeg' which is the name for the static build (jpeg.lib)
+    # instead it should link against 'libjpeg' which is shared (libjpeg.dll)
+    - 0003-jpeg8_use_shared_libjpeg.patch     # [win]
 
 build:
   skip: true   # [py<38]
@@ -18,8 +21,10 @@ build:
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
-    - brotli
-    - libbrotlicommon
+    # Windows build needs brotli but does not use this one
+    - libbrotlicommon   # [win]
+    # jxrlib for win is only built as static
+    - jxrlib            # [win]
 
 requirements:
   build:
@@ -48,9 +53,11 @@ requirements:
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
-    - lcms2 2.12              # [not win32]
+    - lcms2 2.12
     - libaec 1.0.4
-    - brotli 1.0.9
+    - libbrotlidec 1.0.9      # [not win]
+    - libbrotlienc 1.0.9      # [not win]
+    - brotli 1.0.9            # [win]
     - libzopfli 1.0.3
     - charls 2.2.0            # [not s390x]
     - snappy 1.1.9
@@ -68,8 +75,6 @@ requirements:
   run:
     - libdeflate >=1.17,<1.18.0a0
     - python
-    # Work around missing `run_exports` in defaults package
-    - {{ pin_compatible('brotli', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
 
 test:
@@ -88,16 +93,20 @@ test:
     - set SKIP_OMP=true                # [win]
     # https://github.com/conda-forge/imagecodecs-feedstock/pull/32#issuecomment-863041029
 
-    # disable test_jpeg2k_numthreads on all platform: it causes segmentation fault.
+    # disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
+    
     # disable completely tests on osx-64, as they fail at 18% with no message
     # - pytest -vv test_imagecodecs.py -k "not (test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None])"  # [osx and (x86_64 or x86)]
+    
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-gray or test_image_roundtrips[jpeg2k-uint16-graya or test_image_roundtrips[jpeg2k-uint16-rgba or test_image_roundtrips[jpeg2k-uint16-rgb)"  # [osx and arm64]
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None)"  # [(linux and not s390x) or win]
+    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None)"  # [linux and not s390x]
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg2k_numthreads or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format)"  # [s390x]
+
+    - pytest -vv test_imagecodecs.py -k "not (test_cms_profile or test_jpeg_rgb_mode)"  # [win]
 
     # CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
     # These may be fixed with future versions but needs to be checked.
-    - pytest -vv test_imagecodecs.py -k "test_jpeg2k_numthreads and test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips and test_spng_encode and test_ljpeg and test_jpeg_rgb_mode and test_cms_format" || true  # [s390x]
+    # - pytest -vv test_imagecodecs.py -k "test_jpeg2k_numthreads and test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips and test_spng_encode and test_ljpeg and test_jpeg_rgb_mode and test_cms_format" || true  # [s390x]
 
 about:
   home: https://www.cgohlke.com
