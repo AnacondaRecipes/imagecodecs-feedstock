@@ -132,7 +132,6 @@ about:
 
   doc_url: https://www.cgohlke.com
   dev_url: https://github.com/cgohlke/imagecodecs
-
 extra:
   recipe-maintainers:
     - csachs
