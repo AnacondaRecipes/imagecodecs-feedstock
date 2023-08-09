@@ -1,0 +1,21 @@
+diff --git a/setup.py b/setup.py
+--- a/setup.py
++++ b/setup.py
+@@ -144,7 +144,7 @@ EXTENSIONS = {
+         libraries=['openjp2', 'lcms2'],
+     ),
+-    'jpeg8': ext(libraries=['jpeg']),
++    'jpeg8': ext(libraries=['libjpeg']),
+     'jpegls': ext(libraries=['charls']),
+     'jpegsof3': ext(
+         sources=['3rdparty/jpegsof3/jpegsof3.cpp'],
+         include_dirs=['3rdparty/jpegsof3'],
+@@ -338,7 +338,7 @@ def customize_build_cgohlke(EXTENSIONS, OPTIONS):
+     EXTENSIONS['tiff']['libraries'] = [
+         'tiff',
+-        'jpeg',
++        'libjpeg',
+         'png',
+         'zlibstatic-ng-compat',
+         'libwebp',
+         'libsharpyuv',
