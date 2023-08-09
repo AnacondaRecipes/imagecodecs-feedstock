@@ -1,7 +1,9 @@
 * text=auto
 
-*.patch text eol=lf
-*.diff text eol=lf
+# These files line ending should be left untouched
+*.patch binary
+*.diff binary
+
 meta.yaml text eol=lf
 build.sh text eol=lf
 bld.bat text eol=crlf
