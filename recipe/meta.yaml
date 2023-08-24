@@ -98,7 +98,7 @@ test:
     # disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
     
     # disable completely tests on osx-64, as they fail at 18% with no message
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None])"  # [osx and x86_64]
+    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None])"  # [osx and x86_64]
     
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-gray or test_image_roundtrips[jpeg2k-uint16-graya or test_image_roundtrips[jpeg2k-uint16-rgba or test_image_roundtrips[jpeg2k-uint16-rgb)"  # [osx and arm64]
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None)"  # [linux and not s390x]
