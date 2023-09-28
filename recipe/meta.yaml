@@ -19,7 +19,7 @@ source:
 
 build:
   skip: true   # [py<38]
-  number: 0
+  number: 1
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
@@ -41,7 +41,7 @@ requirements:
     - pip
     - wheel
     - numpy {{ numpy }}
-    - cython 0.29.35
+    - cython 0.29
     - zlib {{ zlib }}
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
