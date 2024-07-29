@@ -19,6 +19,7 @@ source:
 
 build:
   skip: true   # [py<38]
+  skip: true   # [not win]
   number: 1
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
