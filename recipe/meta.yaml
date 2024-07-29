@@ -105,7 +105,7 @@ test:
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None)"  # [linux and not s390x]
     - pytest -vv test_imagecodecs.py -k "not (test_jpeg2k_numthreads or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format)"  # [s390x]
 
-    - pytest -vv test_imagecodecs.py -k "not (test_cms_profile or test_jpeg_rgb_mode)"  # [win]
+    #- pytest -vv test_imagecodecs.py -k "not (test_cms_profile or test_jpeg_rgb_mode)"  # [win]
 
     # CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
     # These may be fixed with future versions but needs to be checked.
