@@ -15,7 +15,7 @@ source:
     # instead it should link against 'libjpeg' which is shared (libjpeg.dll)
     # Note: setup.py has CRLF line endings for this version: this patch file
     #       should have CRLF line endings as well
-    #- 0003-jpeg8_use_shared_libjpeg.patch     # [win]
+    - 0003-jpeg8_use_shared_libjpeg.patch     # [win]
 
 build:
   skip: true   # [py<38]
