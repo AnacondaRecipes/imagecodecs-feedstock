@@ -20,6 +20,8 @@ source:
 build:
   number: 0
   skip: true   # [py<39]
+  srcipt_env:
+    - USE_JPEG8_LEGACY=True
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
@@ -52,7 +54,7 @@ requirements:
     - libwebp {{ libwebp }}
     - libwebp-base {{ libwebp }}
     - jxrlib 1.1
-    - libjpeg-turbo 3
+    - jpeg {{ jpeg }}
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
