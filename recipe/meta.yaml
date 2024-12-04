@@ -11,6 +11,7 @@ source:
   patches:
     - 0001-remove-blosc2-codec.patch
     - 0002-patch-aarch64-s390x-codecs.patch   # [s390x or aarch64]
+    - fix_default_build.patch
     # setup.py links jpeg8 against 'jpeg' which is the name for the static build (jpeg.lib)
     # instead it should link against 'libjpeg' which is shared (libjpeg.dll)
     # Note: setup.py has CRLF line endings for this version: this patch file
