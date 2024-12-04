@@ -1,0 +1,31 @@
+diff --git a/setup.py b/setup.py
+index 5d85574..f8e8414 100644
+--- a/setup.py
++++ b/setup.py
+@@ -263,13 +263,20 @@ def customize_build_default(EXTENSIONS, OPTIONS):
+     Works on Ubuntu 24.04
+ 
+     """
+-    EXTENSIONS['jpeg2k']['include_dirs'].extend(
+-        (
+-            '/usr/include/openjpeg-2.3',
+-            '/usr/include/openjpeg-2.4',
+-            '/usr/include/openjpeg-2.5',
++    if sys.platform == 'win32':
++        EXTENSIONS['jpeg2k']['include_dirs'] += [
++            os.path.join(
++                os.environ['LIBRARY_INC'], 'openjpeg-' + os.environ['openjpeg']
++            )
++        ]
++    else:
++        EXTENSIONS['jpeg2k']['include_dirs'].extend(
++            (
++                '/usr/include/openjpeg-2.3',
++                '/usr/include/openjpeg-2.4',
++                '/usr/include/openjpeg-2.5',
++            )
+         )
+-    )
+     EXTENSIONS['jpegxr']['include_dirs'] = [
+             os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
+         ]
