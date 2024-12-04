@@ -57,7 +57,7 @@ requirements:
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
     - lcms2 2.12
-    - libaec 1.0.4
+    - libaec 1
     - brotli 1.0.9
     - libzopfli 1.0.3
     - charls 2.2.0            # [not s390x]
