@@ -15,13 +15,13 @@ source:
     # instead it should link against 'libjpeg' which is shared (libjpeg.dll)
     # Note: setup.py has CRLF line endings for this version: this patch file
     #       should have CRLF line endings as well
-    - 0003-jpeg8_use_shared_libjpeg.patch     # [win]
+    - 0003-jpeg8_use_shared_libjpeg.patch
 
 build:
   number: 0
   skip: true   # [py<39]
   srcipt_env:
-    - USE_JPEG8_LEGACY=False
+    - USE_JPEG8_LEGACY=True
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
