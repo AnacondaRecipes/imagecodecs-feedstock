@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 7cbe591..f0e4f7a 100644
+--- a/setup.py
++++ b/setup.py
+@@ -653,7 +653,7 @@ if 'sdist' not in sys.argv:
+         elif os.environ.get('IMAGECODECS_CIBW', ''):
+             customize_build = customize_build_cibuildwheel
+         elif os.environ.get('CONDA_BUILD', ''):
+-            customize_build = customize_build_condaforge
++            customize_build = customize_build_default
+         elif shutil.which('port'):
+             customize_build = customize_build_macports
+         elif os.name == 'nt' and 'GCC' in sys.version:
