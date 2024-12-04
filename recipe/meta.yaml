@@ -52,7 +52,7 @@ requirements:
     - libwebp {{ libwebp }}
     - libwebp-base {{ libwebp }}
     - jxrlib 1.1
-    - jpeg {{ jpeg }}
+    - libjpeg-turbo 3
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
