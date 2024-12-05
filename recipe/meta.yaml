@@ -86,6 +86,23 @@ requirements:
     - "{{ pin_compatible('brotli', max_pin='x.x') }}"
     - numpy
 
+{% set tests_to_skip = "" %}
+
+{% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
+# Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
+{% set tests_to_skip = tests_to_skip + "or test_jpeg2k_numthreads" %}  # [unix]
+# Disable test_cms_identity_transforms on unix because of AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001
+{% set tests_to_skip = tests_to_skip + "or test_cms_identity_transforms" %}  # [unix]
+
+{% set tests_to_skip = tests_to_skip + "or test_image_roundtrips" %}  # [unix]
+# disable test_zfp as they are all failing on osx-64
+{% set tests_to_skip = tests_to_skip + "or test_zfp" %}  # [osx and x86_64]
+# CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
+# These may be fixed with future versions but needs to be checked.
+{% set tests_to_skip = tests_to_skip + "or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux and s390x]
+
+{% set tests_to_skip = tests_to_skip + "or test_cms_profile" %}  # [win]
+
 test:
   source_files:
     - tests
@@ -98,24 +115,9 @@ test:
   commands:
     - pip check
     - cd tests
-      # TODO: determine why OpenMP on Windows build workers is unreliable
+    # TODO: determine why OpenMP on Windows build workers is unreliable
     - set SKIP_OMP=true                # [win]
-    # https://github.com/conda-forge/imagecodecs-feedstock/pull/32#issuecomment-863041029
-
-    # disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
-
-    # disable test_zfp as they are all failing on osx-64
-    # Disable test_cms_identity_transforms on linux because of AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None] or test_zfp or test_cms_identity_transforms)"  # [osx and x86_64]
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-gray or test_image_roundtrips[jpeg2k-uint16-graya or test_image_roundtrips[jpeg2k-uint16-rgba or test_image_roundtrips[jpeg2k-uint16-rgb or test_cms_identity_transforms)"  # [osx and arm64]
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg_rgb_mode or test_jpeg2k_numthreads or test_image_roundtrips[jpeg2k-uint16-rgb-out-bytearray-None or test_cms_identity_transforms)"  # [linux and not s390x]
-    - pytest -vv test_imagecodecs.py -k "not (test_jpeg2k_numthreads or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format or test_cms_identity_transforms)"  # [s390x]
-
-    - pytest -vv test_imagecodecs.py -k "not (test_cms_profile or test_jpeg_rgb_mode)"  # [win]
-
-    # CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
-    # These may be fixed with future versions but needs to be checked.
-    # - pytest -vv test_imagecodecs.py -k "test_jpeg2k_numthreads and test_packints_decode and test_floatpred and test_float24 and test_jpegsof3 and test_image_roundtrips and test_spng_encode and test_ljpeg and test_jpeg_rgb_mode and test_cms_format" || true  # [s390x]
+    - pytest -vv test_imagecodecs.py -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://www.cgohlke.com
