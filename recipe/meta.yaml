@@ -24,8 +24,6 @@ source:
 build:
   number: 0
   skip: true   # [py<39]
-  srcipt_env:
-    - USE_JPEG8_LEGACY=True
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
