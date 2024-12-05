@@ -69,7 +69,7 @@ requirements:
     - charls 2.2.0            # [not s390x]
     - snappy 1.1.9
     - libtiff 4.5.0
-    - lerc 3                  # [not s390x]
+    - lerc 3
     - zfp 1.0.0               # [not (s390x or aarch64)]
     - libdeflate 1.17
     - brunsli 0.1             # [not win and not s390x]
