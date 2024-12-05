@@ -71,7 +71,7 @@ requirements:
     - libtiff 4.5.0
     - lerc 3                  # [not s390x]
     - zfp 1.0.0               # [not (s390x or aarch64)]
-    - libdeflate 1.17
+    - libdeflate 1.22
     - brunsli 0.1             # [not win and not s390x]
     # While jpeg-turbo is the preferred version upstream, the migration
     # to libjpeg-turbo has been contentious on conda-forge
