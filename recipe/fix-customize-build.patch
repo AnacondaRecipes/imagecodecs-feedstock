@@ -16,7 +16,7 @@ index 501d468..45af300 100644
      struct jpeg_common_struct:
          jpeg_error_mgr* err
 diff --git a/setup.py b/setup.py
-index f0e4f7a..a7568a1 100644
+index f0e4f7a..3c3ac0c 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -518,6 +518,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
@@ -39,7 +39,15 @@ index f0e4f7a..a7568a1 100644
  
      if sys.platform == 'win32':
          del EXTENSIONS['brunsli']  # brunsli not stable on conda-forge
-@@ -562,6 +563,24 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+@@ -554,6 +555,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+         ]
+         EXTENSIONS['jpegxr']['libraries'] = ['libjpegxr', 'libjxrglue']
+         EXTENSIONS['szip']['libraries'] = ['szip']
++        EXTENSIONS['zlibng']['libraries'] = ['zlib-ng']
+     else:
+         EXTENSIONS['zopfli']['include_dirs'] = [
+             os.path.join(os.environ['PREFIX'], 'include', 'zopfli')
+@@ -562,6 +564,24 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
              os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
          ]
          EXTENSIONS['jpegxr']['libraries'] = ['jpegxr', 'jxrglue']
