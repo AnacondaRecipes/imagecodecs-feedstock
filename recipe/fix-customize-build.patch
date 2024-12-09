@@ -16,10 +16,10 @@ index 501d468..45af300 100644
      struct jpeg_common_struct:
          jpeg_error_mgr* err
 diff --git a/setup.py b/setup.py
-index f0e4f7a..298a150 100644
+index f0e4f7a..b8b6822 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -263,14 +263,26 @@ def customize_build_default(EXTENSIONS, OPTIONS):
+@@ -263,14 +263,28 @@ def customize_build_default(EXTENSIONS, OPTIONS):
      Works on Ubuntu 24.04
  
      """
@@ -49,12 +49,13 @@ index f0e4f7a..298a150 100644
 -    )
 -    EXTENSIONS['jpegxr']['include_dirs'].append('/usr/include/jxrlib')
 +        EXTENSIONS['jpegxr']['include_dirs'] = [
-+                os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
++            os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
 +        ]
++        EXTENSIONS['jpegxr']['libraries'] = ['jpegxr', 'jxrglue']
      # EXTENSIONS['jpeg8']['sources'] = []  # requires libjpeg-turbo v3
  
      # these extensions are required by core dependent libraries
-@@ -653,7 +665,7 @@ if 'sdist' not in sys.argv:
+@@ -653,7 +667,7 @@ if 'sdist' not in sys.argv:
          elif os.environ.get('IMAGECODECS_CIBW', ''):
              customize_build = customize_build_cibuildwheel
          elif os.environ.get('CONDA_BUILD', ''):
