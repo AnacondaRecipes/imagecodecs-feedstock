@@ -16,7 +16,7 @@ index 501d468..45af300 100644
      struct jpeg_common_struct:
          jpeg_error_mgr* err
 diff --git a/setup.py b/setup.py
-index f0e4f7a..25382a3 100644
+index f0e4f7a..9105604 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -518,6 +518,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
@@ -36,7 +36,7 @@ index f0e4f7a..25382a3 100644
  
      if sys.platform == 'win32':
          del EXTENSIONS['brunsli']  # brunsli not stable on conda-forge
-@@ -562,6 +563,13 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+@@ -562,6 +563,24 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
              os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
          ]
          EXTENSIONS['jpegxr']['libraries'] = ['jpegxr', 'jxrglue']
@@ -47,6 +47,17 @@ index f0e4f7a..25382a3 100644
 +                os.path.join(os.environ['PREFIX'], 'include', 'openjpeg-2.5'),
 +            )
 +        )
++        import platform
++        if platform.machine() == 's390x':
++            # These extensions seem to be broken and trigger test failures S390X,
++            # even though the libraries they use pass all their tests.
++            del EXTENSIONS['zfp']       # all tests fail
++            del EXTENSIONS['jpegls']    # encode/decode tests pass; round-trip tests fail
++            del EXTENSIONS['brunsli']
++        elif platform.machine() == 'aarch64':
++            # These extensions seem to be broken and trigger test failures,
++            # even though the libraries they use pass all their tests.
++            del EXTENSIONS['zfp']       # all tests fail
  
  
  def customize_build_macports(EXTENSIONS, OPTIONS):
