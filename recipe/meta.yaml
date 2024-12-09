@@ -56,7 +56,7 @@ requirements:
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc 1.21.3
-    - lcms2 2.12
+    - lcms2 2.16
     - libaec 1
     - brotli 1.0.9
     - libzopfli 1.0.3
@@ -87,8 +87,9 @@ requirements:
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
+
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
-{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}
+#{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}
 
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
