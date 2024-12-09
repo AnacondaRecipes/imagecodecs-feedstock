@@ -43,7 +43,7 @@ requirements:
     - numpy 2.1 # [py==313]
     - cython >=3.0.11
     - zlib {{ zlib }}
-    - zlib-ng 2.0
+    - zlib-ng 2.0  # [not win]
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
     - zstd 1.5.5
