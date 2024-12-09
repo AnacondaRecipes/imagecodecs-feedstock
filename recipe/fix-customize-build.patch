@@ -37,6 +37,7 @@ index f0e4f7a..298a150 100644
 +        EXTENSIONS['jpegxr']['include_dirs'] = [
 +            os.path.join(os.environ['LIBRARY_INC'], 'jxrlib')
 +        ]
++        EXTENSIONS['jpegxr']['libraries'] = ['libjpegxr', 'libjxrglue']
 +    else:
 +        EXTENSIONS['jpeg2k']['include_dirs'].extend(
 +            (
