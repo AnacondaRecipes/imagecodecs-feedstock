@@ -3,6 +3,9 @@ build_parameters:
   - "--suppress-variables"
   - "--error-overlinking"
 
+build_env_vars:
+  ANACONDA_ROCKET_ENABLE_PY313 : yes
+
 channels:
   - https://staging.continuum.io/prefect/fs/libaec-feedstock/pr3/1b8ac9d
   - https://staging.continuum.io/prefect/fs/libavif-feedstock/pr2/316fc7b

@@ -44,6 +44,7 @@ requirements:
     - numpy 2.1 # [py==313]
     - cython >=3.0.11
     - zlib {{ zlib }}
+    - zlib-ng 2.0
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
     - zstd 1.5.5
@@ -97,6 +98,8 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux and s390x]
 # lerc tests failed on s390x
 {% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux and s390x]
+# test_szip_canonical fails with 'assert np.False_' on s390x
+{% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux and s390x]
 
 {% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
 

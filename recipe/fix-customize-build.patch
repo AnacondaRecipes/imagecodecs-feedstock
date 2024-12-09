@@ -16,7 +16,7 @@ index 501d468..45af300 100644
      struct jpeg_common_struct:
          jpeg_error_mgr* err
 diff --git a/setup.py b/setup.py
-index f0e4f7a..9105604 100644
+index f0e4f7a..56d0f78 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -518,6 +518,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
@@ -27,15 +27,25 @@ index f0e4f7a..9105604 100644
      # del EXTENSIONS['jpegli']
      del EXTENSIONS['lzfse']
      del EXTENSIONS['lzham']
-@@ -529,7 +530,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+@@ -527,9 +528,8 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+     del EXTENSIONS['sperr']
+     del EXTENSIONS['sz3']
      del EXTENSIONS['ultrahdr']
-     del EXTENSIONS['zlibng']
+-    del EXTENSIONS['zlibng']
  
 -    EXTENSIONS['jpeg8']['sources'] = []  # use libjpeg-turbo 3
 +    #EXTENSIONS['jpeg8']['sources'] = []  # use libjpeg-turbo 3
  
      if sys.platform == 'win32':
          del EXTENSIONS['brunsli']  # brunsli not stable on conda-forge
+@@ -554,6 +554,7 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
+         ]
+         EXTENSIONS['jpegxr']['libraries'] = ['libjpegxr', 'libjxrglue']
+         EXTENSIONS['szip']['libraries'] = ['szip']
++        EXTENSIONS['zlibng']['libraries'] = ['zlib-ng']
+     else:
+         EXTENSIONS['zopfli']['include_dirs'] = [
+             os.path.join(os.environ['PREFIX'], 'include', 'zopfli')
 @@ -562,6 +563,24 @@ def customize_build_condaforge(EXTENSIONS, OPTIONS):
              os.path.join(os.environ['PREFIX'], 'include', 'jxrlib')
          ]
