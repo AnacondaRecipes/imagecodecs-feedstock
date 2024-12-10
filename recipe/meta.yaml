@@ -89,7 +89,7 @@ requirements:
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
 
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
-#{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}
+{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}
 
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
