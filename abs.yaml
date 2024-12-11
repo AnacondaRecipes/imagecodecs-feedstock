@@ -8,6 +8,6 @@ build_env_vars:
 
 channels:
   - https://staging.continuum.io/prefect/fs/libdeflate-feedstock/pr6/915189e
-  - https://staging.continuum.io/prefect/fs/lerc-feedstock/pr3/eb9cc9b
-  - https://staging.continuum.io/prefect/fs/libtiff-feedstock/pr20/822fcae
-  - https://staging.continuum.io/prefect/fs/lcms2-feedstock/pr1/749c05c
+  - https://staging.continuum.io/prefect/fs/lerc-feedstock/pr3/b5361e3
+  - https://staging.continuum.io/prefect/fs/libtiff-feedstock/pr20/af67ffc
+  - https://staging.continuum.io/prefect/fs/lcms2-feedstock/pr1/ccc36ef
