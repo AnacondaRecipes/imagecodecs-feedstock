@@ -81,9 +81,8 @@ requirements:
     - numpy
 
 {% set tests_to_skip = "" %}
-# imagecodecs._deflate.DeflateError: libdeflate_zlib_compress returned unknown error '0',
-# it will require updating libdeflate to >=1.21 and rebuilding then libtiff too.
-{% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode or test_compressors" %}
+
+{% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
