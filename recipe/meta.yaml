@@ -10,11 +10,6 @@ source:
   sha256: fea0801b4008d25e971918d991397a351bbe76276cfa98eed2de54cb87e894a3
   patches:
     - fix-customize-build.patch
-    # setup.py links jpeg8 against 'jpeg' which is the name for the static build (jpeg.lib)
-    # instead it should link against 'libjpeg' which is shared (libjpeg.dll)
-    # Note: setup.py has CRLF line endings for this version: this patch file
-    #       should have CRLF line endings as well
-    - 0003-jpeg8_use_shared_libjpeg.patch  # [win]
 
 build:
   number: 0
@@ -46,7 +41,7 @@ requirements:
     - zlib-ng 2.0
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
-    - zstd 1.5.5
+    - zstd {{ zstd }}
     - lz4-c 1.9.4
     - libpng {{ libpng }}
     - libwebp {{ libwebp }}
@@ -61,7 +56,7 @@ requirements:
     - brotli 1.0.9
     - libzopfli 1.0.3
     - charls 2.2.0            # [not s390x]
-    - snappy 1.1.9
+    - snappy 1.2.1
     - libtiff {{ libtiff }}
     - lerc 4
     - zfp 1.0.0               # [not (s390x or aarch64)]
@@ -78,7 +73,7 @@ requirements:
     - python
     # Work around missing `run_exports` in defaults package
     - "{{ pin_compatible('brotli', max_pin='x.x') }}"
-    - numpy
+    - numpy >=1.21,<3
 
 {% set tests_to_skip = "" %}
 
@@ -89,7 +84,7 @@ requirements:
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
 # Disable test_cms on all platforms because lcms2-2.16 crashes transforming sRGB float to planar uint16, see https://github.com/mm2/Little-CMS/issues/420.
 # Check if it's fixed in lcms2-2.16.1.
-{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms or test_cms" %}
+#{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms or test_cms" %}
 
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
