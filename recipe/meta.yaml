@@ -106,16 +106,19 @@ test:
     - tests
   requires:
     - pip
+    - pytest
     # See test dependencies https://github.com/cgohlke/imagecodecs/tree/master?tab=readme-ov-file#requirements
     - brotli-python
     - lz4
     - numcodecs
-    - pytest
     - python-snappy
     - python-zstd
-    - tifffile
-    - zarr
-    - zopfli
+    # No compatible vesrions for tifffile, zarr are available on the main channel
+    # tifffile has a circular dependency imagecodecs
+    #- tifffile
+    #- zarr
+    # The python package zopfli isn't available on the main channel
+    #- zopfli
   imports:
     - imagecodecs
     - imagecodecs._imagecodecs
