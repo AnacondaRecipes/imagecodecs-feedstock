@@ -84,7 +84,9 @@ requirements:
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
 # Disable test_cms on all platforms because lcms2-2.16 crashes transforming sRGB float to planar uint16, see https://github.com/mm2/Little-CMS/issues/420.
 # Check if it's fixed in lcms2-2.16.1.
-#{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms or test_cms" %}
+{% set tests_to_skip = tests_to_skip + " or test_cms" %}
+# Disable test_cms on linux-64 and win-64
+{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}  # [(linux and x86_64) or win]
 
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
@@ -110,6 +112,11 @@ test:
     - imagecodecs._imagecodecs
   commands:
     - pip check
+{% set expected_codecs = ["BLOSC", "ZSTD", "LZ4", "ZLIB", "ZLIBNG"] %}
+{% for codec in expected_codecs %}
+    - echo "Testing for {{ codec }}"
+    - python -c "import imagecodecs; assert imagecodecs.{{ codec }}.available"
+{% endfor %}
     - cd tests
     # TODO: determine why OpenMP on Windows build workers is unreliable
     - set SKIP_OMP=true                # [win]
