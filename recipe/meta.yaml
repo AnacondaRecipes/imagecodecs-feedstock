@@ -106,7 +106,16 @@ test:
     - tests
   requires:
     - pip
+    # See test dependencies https://github.com/cgohlke/imagecodecs/tree/master?tab=readme-ov-file#requirements
+    - brotli-python
+    - lz4
+    - numcodecs
     - pytest
+    - python-snappy
+    - python-zstd
+    - tifffile
+    - zarr
+    - zopfli
   imports:
     - imagecodecs
     - imagecodecs._imagecodecs
