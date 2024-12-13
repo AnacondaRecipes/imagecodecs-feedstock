@@ -110,12 +110,12 @@ test:
     # See test dependencies https://github.com/cgohlke/imagecodecs/tree/master?tab=readme-ov-file#requirements
     - brotli-python
     - lz4
-    - numcodecs
     - python-snappy
     - python-zstd
-    # No compatible vesrions for tifffile, zarr are available on the main channel
-    # tifffile has a circular dependency imagecodecs
-    #- tifffile
+    - numcodecs  # [not s390x]
+    # tifffile <2024.12.12 has a circular dependency imagecodecs
+    - tifffile >=2024.12.12
+    # No compatible vesrions for zarr are available on the main channel
     #- zarr
     # The python package zopfli isn't available on the main channel
     #- zopfli
