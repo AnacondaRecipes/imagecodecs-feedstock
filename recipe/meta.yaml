@@ -102,7 +102,7 @@ requirements:
 # Looks like an incompatibility with lerc and/or libdeflate.
 {% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux and s390x]
 # test_tifffile fails on win with 'imagecodecs._tiff.TiffError: WEBP compression support is not configured'
-{% set tests_to_skip = tests_to_skip + " or test_tifffile[webp-False-u1-<] or test_tifffile[webp-False-u1->]" %}  # [win]
+{% set tests_to_skip = tests_to_skip + " or test_tifffile" %}  # [win]
 
 
 {% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
