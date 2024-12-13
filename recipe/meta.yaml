@@ -98,6 +98,9 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux and s390x]
 # test_szip_canonical fails with 'assert np.False_' on s390x
 {% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux and s390x]
+# test_tifffile fails with 'ValueError: data type not supported by LERC' on s390x.
+# Looks like an incompatibility with lerc and/or libdeflate.
+{% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux and s390x]
 
 {% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
 
