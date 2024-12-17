@@ -5,11 +5,3 @@ build_parameters:
 
 build_env_vars:
   ANACONDA_ROCKET_ENABLE_PY313 : yes
-
-channels:
-  - https://staging.continuum.io/prefect/fs/libdeflate-feedstock/pr6/915189e
-  - https://staging.continuum.io/prefect/fs/lerc-feedstock/pr3/b5361e3
-  - https://staging.continuum.io/prefect/fs/libtiff-feedstock/pr20/af67ffc
-  - https://staging.continuum.io/prefect/fs/lcms2-feedstock/pr1/2c3b3cb
-  # test deps
-  - https://staging.continuum.io/prefect/fs/tifffile-feedstock/pr13/61c1de5

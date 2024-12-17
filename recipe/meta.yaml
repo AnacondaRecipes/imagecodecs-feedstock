@@ -9,6 +9,14 @@ source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: fea0801b4008d25e971918d991397a351bbe76276cfa98eed2de54cb87e894a3
   patches:
+    # This patch required for customize build in setup.py (notice that conda-forge uses a different set of configurations),
+    # and it fixes the next problems:
+    # 1) a bug with nogil in imagecodecs/libjpeg.pxd.
+    # 2) delete EXTENSIONS['jpegxl'] and EXTENSIONS['blosc2'] because these packages aren't available on the main channel.
+    # 3) disables "EXTENSIONS['jpeg8']['sources'] = []" because, otherwise, it will use 'libjpeg-turbo 3' which isn't compatible with 'jpeg' package in the same environment.
+    # 4) enable zlib-ng package (EXTENSIONS['zlibng']).
+    # 5) the openjpeg include dirs.
+    # 6) disables extensions 'zfp', 'jpegls', and 'brunsli' on s390x, and 'zfp' on linux-aarch64.
     - fix-customize-build.patch
 
 build:
@@ -119,7 +127,7 @@ test:
     - python-snappy
     - python-zstd
     - numcodecs  # [not s390x]
-    # tifffile <2024.12.12 has a circular dependency imagecodecs
+    # tifffile <2024.12.12 has a circular dependency imagecodecs at runtime
     - tifffile >=2024.12.12 # [py>=310]
     # No compatible vesrions for zarr are available on the main channel
     #- zarr
