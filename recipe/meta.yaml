@@ -64,7 +64,7 @@ requirements:
     - libzopfli 1.0.3
     - charls 2.2.0            # [not s390x]
     - snappy 1.2.1
-    - libtiff {{ libtiff }}
+    - libtiff 4.7.0
     - lerc 4
     - zfp 1.0.0               # [not (s390x or aarch64)]
     - libdeflate 1.22
