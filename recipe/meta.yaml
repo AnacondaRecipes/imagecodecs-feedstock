@@ -20,7 +20,7 @@ source:
     - fix-customize-build.patch
 
 build:
-  number: 0
+  number: 1
   skip: true   # [py<39]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
@@ -42,8 +42,7 @@ requirements:
     - python
     - pip
     - wheel
-    - numpy 2.0 # [py<313]
-    - numpy 2.1 # [py==313]
+    - numpy {{ numpy }}
     - cython >=3.0.11
     - zlib {{ zlib }}
     - zlib-ng 2.0
