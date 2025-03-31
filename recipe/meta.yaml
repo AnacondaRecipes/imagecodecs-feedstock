@@ -24,7 +24,7 @@ source:
 build:
   number: 1
   # TODO: debug on win
-  skip: true   # [py<39 or s390x or not win]
+  skip: true   # [py<39 or s390x]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
