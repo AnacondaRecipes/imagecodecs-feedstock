@@ -9,6 +9,8 @@ source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: fea0801b4008d25e971918d991397a351bbe76276cfa98eed2de54cb87e894a3
   patches:
+    # xz 5.6.4+ doesn't include liblzma.lib
+    - fix-lzma.patch  # [win]
     # This patch required for customize build in setup.py (notice that conda-forge uses a different set of configurations),
     # and it fixes the next problems:
     # 1) a bug with nogil in imagecodecs/libjpeg.pxd.
@@ -18,8 +20,6 @@ source:
     # 5) the openjpeg include dirs.
     # 6) disables extensions 'zfp', 'jpegls', and 'brunsli' on s390x, and 'zfp' on linux-aarch64.
     - fix-customize-build.patch
-    # xz 5.6.4+ doesn't include liblzma.lib
-    - fix-lzma.patch  # [win]
 
 build:
   number: 1
