@@ -18,10 +18,12 @@ source:
     # 5) the openjpeg include dirs.
     # 6) disables extensions 'zfp', 'jpegls', and 'brunsli' on s390x, and 'zfp' on linux-aarch64.
     - fix-customize-build.patch
+    # xz 5.6.4+ doesn't include liblzma.lib
+    - fix-lzma.patch  # [win]
 
 build:
   number: 1
-  skip: true   # [py<39]
+  skip: true   # [py<39 or s390x]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
@@ -137,7 +139,7 @@ test:
     - imagecodecs._imagecodecs
   commands:
     - pip check
-{% set expected_codecs = ["BLOSC", "ZSTD", "LZ4", "ZLIB", "ZLIBNG"] %}
+{% set expected_codecs = ["BLOSC", "ZSTD", "LZ4", "ZLIB", "LZMA", "ZLIBNG"] %}
 {% for codec in expected_codecs %}
     - echo "Testing for {{ codec }}"
     - python -c "import imagecodecs; assert imagecodecs.{{ codec }}.available"
