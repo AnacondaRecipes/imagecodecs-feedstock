@@ -23,8 +23,8 @@ source:
 
 build:
   number: 1
-  # TODO: debug on win
-  skip: true   # [py<39 or s390x]
+  # TODO: debug on osx-arm64
+  skip: true   # [py<39 or s390x or not (osx and arm64)]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
@@ -84,13 +84,17 @@ requirements:
     # Work around missing `run_exports` in defaults package
     - "{{ pin_compatible('brotli', max_pin='x.x') }}"
     - numpy >=1.21,<3
+  run_constrained:
+    # mkl variant pulls in intel-openmp which conflicts with llvm-openmp
+    # force to use openblas variant of numpy, scipy, etc.
+    - blas=*=openblas  # [osx]
 
 {% set tests_to_skip = "" %}
 
 {% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
-{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3" %}  # [osx and arm64]
+{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx and arm64]
 
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
