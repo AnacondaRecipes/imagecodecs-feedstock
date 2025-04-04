@@ -93,7 +93,7 @@ requirements:
 {% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
-{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx and arm64]
+{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx]
 
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
