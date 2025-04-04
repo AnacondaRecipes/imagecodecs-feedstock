@@ -58,7 +58,7 @@ requirements:
     - jxrlib 1.1
     - jpeg {{ jpeg }}
     - giflib {{ giflib }}
-    - openjpeg {{ openjpeg }}
+    - openjpeg 2.5.2
     - blosc 1.21.3
     - lcms2 2.16
     - libaec 1
