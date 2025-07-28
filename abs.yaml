@@ -2,6 +2,3 @@
 build_parameters:
   - "--suppress-variables"
   - "--error-overlinking"
-
-build_env_vars:
-  ANACONDA_ROCKET_ENABLE_PY313 : yes

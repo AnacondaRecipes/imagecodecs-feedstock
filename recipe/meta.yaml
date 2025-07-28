@@ -18,27 +18,27 @@ source:
     # 3) disables "EXTENSIONS['jpeg8']['sources'] = []" because, otherwise, it will use 'libjpeg-turbo 3' which isn't compatible with 'jpeg' package in the same environment.
     # 4) enable zlib-ng package (EXTENSIONS['zlibng']).
     # 5) the openjpeg include dirs.
-    # 6) disables extensions 'zfp', 'jpegls', and 'brunsli' on s390x, and 'zfp' on linux-aarch64.
+    # 6) disables extensions 'zfp', 'jpegls' and 'zfp' on linux-aarch64.
     - fix-customize-build.patch
 
 build:
-  number: 1
-  skip: true   # [py<39 or s390x]
+  number: 2
+  skip: true  # [py<39]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
   ignore_run_exports:
     - libbrotlicommon
     - brotli
     # jxrlib for win is only built as static
-    - jxrlib            # [win]
+    - jxrlib  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config
-    - patch       # [not win]
-    - m2-patch    # [win]
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - setuptools
     - python
@@ -55,27 +55,27 @@ requirements:
     - libpng {{ libpng }}
     - libwebp {{ libwebp }}
     - libwebp-base {{ libwebp }}
-    - jxrlib 1.1
+    - jxrlib 1.2
     - jpeg {{ jpeg }}
     - giflib {{ giflib }}
-    - openjpeg 2.5.2
-    - blosc 1.21.3
-    - lcms2 2.16
-    - libaec 1
-    - brotli 1.0.9
-    - libzopfli 1.0.3
-    - charls 2.2.0            # [not s390x]
-    - snappy 1.2.1
+    - openjpeg {{ openjpeg }}
+    - blosc {{ blosc }}
+    - lcms2 {{ lcms2 }}
+    - libaec {{ libaec }}
+    - brotli {{ brotli }}
+    - libzopfli {{ libzopfli }}
+    - charls {{ charls }}
+    - snappy {{ snappy }}
     - libtiff {{ libtiff }}
-    - lerc 4
-    - zfp 1.0.0               # [not (s390x or aarch64)]
-    - libdeflate 1.22
-    - brunsli 0.1             # [not win and not s390x]
+    - lerc {{ lerc }}
+    - zfp {{ zfp }}  # [not aarch64]
+    - libdeflate {{ libdeflate }}
+    - brunsli {{ brunsli }}  # [not win]
     # While jpeg-turbo is the preferred version upstream, the migration
     # to libjpeg-turbo has been contentious on conda-forge
     # - libjpeg-turbo
-    - cfitsio 3.470
-    - libavif 1.1.1
+    - cfitsio {{ cfitsio }}
+    - libavif {{ libavif }}
 
   run:
     - libdeflate
@@ -89,12 +89,10 @@ requirements:
     - blas=*=openblas  # [osx]
 
 {% set tests_to_skip = "" %}
-
 {% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
 {% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx]
-
 # Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
 # Sometimes it can fail "Windows fatal exception: access violation" on Windows.
 # Disable test_cms on all platforms because lcms2-2.16 crashes transforming sRGB float to planar uint16, see https://github.com/mm2/Little-CMS/issues/420.
@@ -102,24 +100,17 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_cms" %}
 # Disable test_cms on linux-64 and win-64
 {% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}  # [(linux and x86_64) or win]
-
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
 {% set tests_to_skip = tests_to_skip + " or test_zfp" %}  # [osx and x86_64]
-# CAPTURING FAILING S390x tests to be reviewed later (These tests are failing most likely from an upstream Endianess issue)
 # These may be fixed with future versions but needs to be checked.
-{% set tests_to_skip = tests_to_skip + " or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux and s390x]
-# lerc tests failed on s390x
-{% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux and s390x]
-# test_szip_canonical fails with 'assert np.False_' on s390x
-{% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux and s390x]
-# tifffile tests fail with 'ValueError: data type not supported by LERC' on s390x.
+{% set tests_to_skip = tests_to_skip + " or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux]
 # Looks like an incompatibility with lerc and/or libdeflate.
-{% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux and s390x]
+{% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux]
 # test_tifffile fails on win with 'imagecodecs._tiff.TiffError: WEBP compression support is not configured'
 {% set tests_to_skip = tests_to_skip + " or test_tifffile" %}  # [win]
-
-
 {% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
 
 test:
@@ -133,7 +124,7 @@ test:
     - lz4
     - python-snappy
     - python-zstd
-    - numcodecs  # [not s390x]
+    - numcodecs
     # tifffile <2024.12.12 has a circular dependency imagecodecs at runtime
     - tifffile >=2024.12.12 # [py>=310]
     # No compatible vesrions for zarr are available on the main channel
