@@ -22,7 +22,7 @@ source:
     - fix-customize-build.patch
 
 build:
-  number: 4
+  number: 3
   skip: true  # [py<39]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
