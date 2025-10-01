@@ -22,7 +22,7 @@ source:
     - fix-customize-build.patch
 
 build:
-  number: 3
+  number: 2
   skip: true  # [py<39]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
@@ -35,7 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ stdlib('c') }}
+    - {{ compiler('cxx') }}
     - pkg-config
     - patch  # [not win]
     - m2-patch  # [win]
