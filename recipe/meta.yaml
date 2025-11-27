@@ -1,36 +1,26 @@
 {% set name = "imagecodecs" %}
-{% set version = "2024.9.22" %}
+{% set version = "2025.11.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: fea0801b4008d25e971918d991397a351bbe76276cfa98eed2de54cb87e894a3
+  url: https://github.com/cgohlke/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 0553ee9a6e343e4c325b507e5b12f301028ae272f3137906816cdb24e8f3ee4b
   patches:
-    # xz 5.6.4+ doesn't include liblzma.lib
-    - fix-lzma.patch  # [win]
     # This patch required for customize build in setup.py (notice that conda-forge uses a different set of configurations),
     # and it fixes the next problems:
-    # 1) a bug with nogil in imagecodecs/libjpeg.pxd.
-    # 2) delete EXTENSIONS['jpegxl'] and EXTENSIONS['blosc2'] because these packages aren't available on the main channel.
+    # 1) a disable tests with jpeg8 in test_imagecodecs.py
+    # 2) delete EXTENSIONS['jpegxl'] because these packages aren't available on the main channel.
     # 3) disables "EXTENSIONS['jpeg8']['sources'] = []" because, otherwise, it will use 'libjpeg-turbo 3' which isn't compatible with 'jpeg' package in the same environment.
-    # 4) enable zlib-ng package (EXTENSIONS['zlibng']).
-    # 5) the openjpeg include dirs.
-    # 6) disables extensions 'zfp', 'jpegls' and 'zfp' on linux-aarch64.
-    - fix-customize-build.patch
+    - 0001_disable_libs_with_jpeg_turbo.patch
 
 build:
-  number: 3
-  skip: true  # [py<39]
+  number: 0
+  skip: true  # [py<311]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
-  ignore_run_exports:
-    - libbrotlicommon
-    - brotli
-    # jxrlib for win is only built as static
-    - jxrlib  # [win]
 
 requirements:
   build:
@@ -38,52 +28,46 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
     - pkg-config
-    - patch  # [not win]
-    - m2-patch  # [win]
   host:
     - setuptools
     - python
     - pip
-    - wheel
-    - numpy {{ numpy }}
-    - cython >=3.0.11
-    - zlib {{ zlib }}
+    - numpy >=2.3.4
+    - cython >=3.1
+    - zlib >=1.3.1
     - zlib-ng 2.0
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
     - zstd {{ zstd }}
-    - lz4-c 1.9.4
+    - lz4-c {{ lz4_c }}
     - libpng {{ libpng }}
-    - libwebp {{ libwebp }}
-    - libwebp-base {{ libwebp }}
-    - jxrlib 1.2
-    - jpeg {{ jpeg }}
+    - libwebp 1.6.0
+    - libwebp-base 1.6.0
+    - jxrlib {{ jxrlib }}
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
     - blosc {{ blosc }}
-    - lcms2 {{ lcms2 }}
+    - lcms2 2.17
     - libaec {{ libaec }}
-    - brotli {{ brotli }}
+    - brotli 1.2.0
     - libzopfli {{ libzopfli }}
     - charls {{ charls }}
     - snappy {{ snappy }}
-    - libtiff {{ libtiff }}
+    - libtiff 4.7.1
     - lerc {{ lerc }}
     - zfp {{ zfp }}  # [not aarch64]
     - libdeflate {{ libdeflate }}
     - brunsli {{ brunsli }}  # [not win]
-    # While jpeg-turbo is the preferred version upstream, the migration
-    # to libjpeg-turbo has been contentious on conda-forge
-    # - libjpeg-turbo
+    - jpeg {{ jpeg }}
+    - c-blosc2 2.22.0
     - cfitsio {{ cfitsio }}
-    - libavif {{ libavif }}
-
+    - libavif >=1.3.0
   run:
     - libdeflate
     - python
     # Work around missing `run_exports` in defaults package
     - "{{ pin_compatible('brotli', max_pin='x.x') }}"
-    - numpy >=1.21,<3
+    - numpy >=2.3.4
   run_constrained:
     # mkl variant pulls in intel-openmp which conflicts with llvm-openmp
     # force to use openblas variant of numpy, scipy, etc.
@@ -94,13 +78,13 @@ requirements:
 # Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
 {% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
 {% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx]
-# Disable test_cms_identity_transforms on unix and win because a part of the tests fail with "AssertionError: Not equal to tolerance rtol=1e-07, atol=0.001"
-# Sometimes it can fail "Windows fatal exception: access violation" on Windows.
-# Disable test_cms on all platforms because lcms2-2.16 crashes transforming sRGB float to planar uint16, see https://github.com/mm2/Little-CMS/issues/420.
-# Check if it's fixed in lcms2-2.16.1.
-{% set tests_to_skip = tests_to_skip + " or test_cms" %}
+# imagecodecs.AvifError: avifEncoderAddImage returned 'No codec available'
+{% set tests_to_skip = tests_to_skip + " or test_avif_strict_disabled" %}
+{% set tests_to_skip = tests_to_skip + " or test_avif_encoder_cicp" %}
+{% set tests_to_skip = tests_to_skip + " or test_image_strided" %}
+{% set tests_to_skip = tests_to_skip + " or test_tiff_files" %}
 # Disable test_cms on linux-64 and win-64
-{% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}  # [(linux and x86_64) or win]
+# {% set tests_to_skip = tests_to_skip + " or test_cms_identity_transforms" %}  # [(linux and x86_64) or win]
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}  # [unix]
 # disable test_zfp as they are all failing on osx-64
 {% set tests_to_skip = tests_to_skip + " or test_zfp" %}  # [osx and x86_64]
