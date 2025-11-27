@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 95fb75e..e2a0038 100644
+--- a/setup.py
++++ b/setup.py
+@@ -222,7 +222,7 @@ EXTENSIONS = {
+     ),
+     'lzfse': ext(libraries=['lzfse'], sources=['imagecodecs/imcd.c']),
+     'lzham': ext(libraries=['lzham']),
+-    'lzma': ext(libraries=['lzma']),
++    'lzma': ext(libraries=['liblzma']),
+     'lzo': ext(libraries=['lzokay-c', 'lzokay']),
+     'mozjpeg': ext(libraries=['mozjpeg']),
+     # 'nvjpeg': ext(libraries=['nvjpeg', 'cuda']),
