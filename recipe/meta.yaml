@@ -15,7 +15,7 @@ source:
     # 2) delete EXTENSIONS['jpegxl'] because these packages aren't available on the main channel.
     # 3) disables "EXTENSIONS['jpeg8']['sources'] = []" because, otherwise, it will use 'libjpeg-turbo 3' which isn't compatible with 'jpeg' package in the same environment.
     - 0001_disable_libs_with_jpeg_turbo.patch
-    - fix_lzma.patch # [win]
+    - fix_lz4.patch # [win]
 
 build:
   number: 0
