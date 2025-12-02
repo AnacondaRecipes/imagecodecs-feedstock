@@ -60,7 +60,7 @@ requirements:
     - libdeflate {{ libdeflate }}
     - brunsli {{ brunsli }}  # [not win]
     - jpeg {{ jpeg }}
-    - c-blosc2 {{ c_blosc2 }}
+    - c-blosc2 2.22.0
     - cfitsio {{ cfitsio }}
     - libavif {{ libavif }}
   run:
