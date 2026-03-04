@@ -1,13 +1,43 @@
 {% set name = "imagecodecs" %}
-{% set version = "2025.11.11" %}
+{% set version = "2026.1.14" %}
+{% set tests_to_skip = "" %}
+{% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
+{% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
+{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx]
+{% set tests_to_skip = tests_to_skip + " or test_avif_strict_disabled" %}
+{% set tests_to_skip = tests_to_skip + " or test_avif_encoder_cicp" %}
+{% set tests_to_skip = tests_to_skip + " or test_image_strided" %}
+{% set tests_to_skip = tests_to_skip + " or test_tiff_files" %}
+{% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}
+{% set tests_to_skip = tests_to_skip + " or test_zfp" %}  # [osx and x86_64]
+{% set tests_to_skip = tests_to_skip + " or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux]
+{% set tests_to_skip = tests_to_skip + " or test_tifffile" %}  # [win]
+{% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
+{% set expected_codecs = [
+  "BLOSC",
+  "ZSTD",
+  "LZ4",
+  "ZLIB",
+  "LZMA",
+  "ZLIBNG"
+] %}
 
+# Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
+# imagecodecs.AvifError: avifEncoderAddImage returned 'No codec available'
+# disable test_zfp as they are all failing on osx-64
+# These may be fixed with future versions but needs to be checked.
+# Looks like an incompatibility with lerc and/or libdeflate.
+# test_tifffile fails on win with 'imagecodecs._tiff.TiffError: WEBP compression support is not configured'
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://github.com/cgohlke/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 0553ee9a6e343e4c325b507e5b12f301028ae272f3137906816cdb24e8f3ee4b
+  sha256: 91c4eb450a3e589ae3f8251c6b8cdc6c09f6c2f21237beee79f424df0af3954e
   patches:
     # This patch required for customize build in setup.py (notice that conda-forge uses a different set of configurations),
     # and it fixes the next problems:
@@ -15,7 +45,7 @@ source:
     # 2) delete EXTENSIONS['jpegxl'] because these packages aren't available on the main channel.
     # 3) disables "EXTENSIONS['jpeg8']['sources'] = []" because, otherwise, it will use 'libjpeg-turbo 3' which isn't compatible with 'jpeg' package in the same environment.
     - 0001_disable_libs_with_jpeg_turbo.patch
-    - fix_lz4.patch # [win]
+    - fix_lz4.patch  # [win]
 
 build:
   number: 0
@@ -67,35 +97,12 @@ requirements:
     - libdeflate
     - python
     # Work around missing `run_exports` in defaults package
-    - "{{ pin_compatible('brotli', max_pin='x.x') }}"
+    - {{ pin_compatible('brotli', max_pin='x.x') }}
     - numpy >=2.3.4
   run_constrained:
     # mkl variant pulls in intel-openmp which conflicts with llvm-openmp
     # force to use openblas variant of numpy, scipy, etc.
     - blas=*=openblas  # [osx]
-
-{% set tests_to_skip = "" %}
-{% set tests_to_skip = tests_to_skip + "test_jpeg_rgb_mode" %}
-# Disable test_jpeg2k_numthreads on all platform except win: it causes segmentation fault.
-{% set tests_to_skip = tests_to_skip + " or test_jpeg2k_numthreads" %}  # [unix]
-{% set tests_to_skip = tests_to_skip + " or test_h5checksum_lookup3 or test_h5checksum_other" %}  # [osx]
-# imagecodecs.AvifError: avifEncoderAddImage returned 'No codec available'
-{% set tests_to_skip = tests_to_skip + " or test_avif_strict_disabled" %}
-{% set tests_to_skip = tests_to_skip + " or test_avif_encoder_cicp" %}
-{% set tests_to_skip = tests_to_skip + " or test_image_strided" %}
-{% set tests_to_skip = tests_to_skip + " or test_tiff_files" %}
-{% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}
-# disable test_zfp as they are all failing on osx-64
-{% set tests_to_skip = tests_to_skip + " or test_zfp" %}  # [osx and x86_64]
-# These may be fixed with future versions but needs to be checked.
-{% set tests_to_skip = tests_to_skip + " or test_packints_decode or test_floatpred or test_float24 or test_jpegsof3 or test_image_roundtrip or test_spng_encode or test_ljpeg or test_jpeg_rgb_mode or test_cms_format" %}  # [linux]
-{% set tests_to_skip = tests_to_skip + " or test_lerc or test_lerc_files or test_lerc_compression or test_lerc_masks or test_dicomrle or test_eer or test_eer_superres or test_zstd_stream" %}  # [linux]
-{% set tests_to_skip = tests_to_skip + " or test_szip_canonical" %}  # [linux]
-# Looks like an incompatibility with lerc and/or libdeflate.
-{% set tests_to_skip = tests_to_skip + " or test_tifffile or test_tiff_asrgb or test_tiff_files" %}  # [linux]
-# test_tifffile fails on win with 'imagecodecs._tiff.TiffError: WEBP compression support is not configured'
-{% set tests_to_skip = tests_to_skip + " or test_tifffile" %}  # [win]
-{% set tests_to_skip = tests_to_skip + " or test_cms_profile" %}  # [win]
 
 test:
   source_files:
@@ -110,7 +117,7 @@ test:
     - python-zstd
     - numcodecs
     # tifffile <2024.12.12 has a circular dependency imagecodecs at runtime
-    - tifffile >=2024.12.12 # [py>=310]
+    - tifffile >=2024.12.12  # [py>=310]
     # No compatible vesrions for zarr are available on the main channel
     #- zarr
     # The python package zopfli isn't available on the main channel
@@ -120,14 +127,11 @@ test:
     - imagecodecs._imagecodecs
   commands:
     - pip check
-{% set expected_codecs = ["BLOSC", "ZSTD", "LZ4", "ZLIB", "LZMA", "ZLIBNG"] %}
-{% for codec in expected_codecs %}
     - echo "Testing for {{ codec }}"
     - python -c "import imagecodecs; assert imagecodecs.{{ codec }}.available"
-{% endfor %}
     - cd tests
     # TODO: determine why OpenMP on Windows build workers is unreliable
-    - set SKIP_OMP=true                # [win]
+    - set SKIP_OMP=true  # [win]
     - pytest -vv test_imagecodecs.py -k "not ({{ tests_to_skip }})"
 
 about:
