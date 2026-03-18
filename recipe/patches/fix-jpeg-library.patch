@@ -1,0 +1,180 @@
+From 211ac8697fbf4c4f3bf8e761654038041b3ba5b1 Mon Sep 17 00:00:00 2001
+From: Ivan Iziumov <iiziumov@anaconda.com>
+Date: Mon, 16 Mar 2026 15:02:12 +0100
+Subject: [PATCH] fix jpeg library
+
+---
+ setup.py                  | 64 +++++++++++++++++++--------------------
+ tests/test_imagecodecs.py |  4 +--
+ 2 files changed, 34 insertions(+), 34 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 6dc04bf..4c44a64 100644
+--- a/setup.py
++++ b/setup.py
+@@ -200,10 +200,10 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
+         include_dirs=['3rdparty/openjpeg'],
+         libraries=['openjp2', 'lcms2'],
+     ),
+-    'jpeg8': ext(
+-        sources=['imagecodecs/_jpeg8_legacy.pyx'],
+-        libraries=['jpeg'],
+-    ),
++    # 'jpeg8': ext(
++    #     sources=['imagecodecs/_jpeg8_legacy.pyx'],
++    #     libraries=['jpeg'],
++    # ),
+     # 'jpegli': ext(libraries=['jpegli']),
+     'jpegls': ext(libraries=['charls']),
+     'jpegxs': ext(libraries=['jxs']),
+@@ -211,7 +211,7 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
+         sources=['3rdparty/jpegsof3/jpegsof3.cpp'],
+         include_dirs=['3rdparty/jpegsof3'],
+     ),
+-    'jpegxl': ext(libraries=['jxl', 'jxl_threads']),
++    # 'jpegxl': ext(libraries=['jxl', 'jxl_threads']),
+     'jpegxr': ext(
+         libraries=['jpegxr', 'jxrglue'],
+         define_macros=[('__ANSI__', 1)] if sys.platform != 'win32' else [],
+@@ -305,9 +305,9 @@ def customize_build_default(
+     )
+     extensions['jpegxr']['include_dirs'].append('/usr/include/jxrlib')
+ 
+-    if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
+-        # use libjpeg-turbo 3 by default
+-        extensions['jpeg8']['sources'] = []
++    # if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
++    #     # use libjpeg-turbo 3 by default
++    #     extensions['jpeg8']['sources'] = []
+ 
+     # these extensions are required by core dependent libraries
+     keep = {
+@@ -317,7 +317,7 @@ def customize_build_default(
+         'cms',
+         'deflate',
+         'jpeg2k',
+-        'jpeg8',
++        # 'jpeg8',
+         # 'jpegxl',  # requires v0.10
+         'jpegxr',
+         'lerc',  # requires v4
+@@ -370,9 +370,9 @@ def customize_build_cgohlke(
+     # extensions['exr']['define_macros'].append(('TINYEXR_USE_OPENMP', 1))
+     # extensions['exr']['extra_compile_args'] = ['/openmp']
+ 
+-    if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
+-        # use libjpeg-turbo 3
+-        extensions['jpeg8']['sources'] = []
++    # if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
++    #     # use libjpeg-turbo 3
++    #     extensions['jpeg8']['sources'] = []
+ 
+     # extensions['jpegli']['include_dirs'] = [
+     #     os.path.join(inclib, 'include', 'jpegli')
+@@ -478,20 +478,20 @@ def customize_build_cgohlke(
+         'deflatestatic',
+         'lerc',
+     ]
+-    extensions['jpegxl']['define_macros'].extend(
+-        (('JXL_STATIC_DEFINE', 1), ('JXL_THREADS_STATIC_DEFINE', 1))
+-    )
+-    extensions['jpegxl']['libraries'] = [
+-        'jxl',
+-        'jxl_cms',
+-        'jxl_extras_codec',
+-        'jxl_threads',
+-        'brotlienc',
+-        'brotlidec',
+-        'brotlicommon',
+-        'hwy',
+-        'lcms2',
+-    ]
++    # extensions['jpegxl']['define_macros'].extend(
++    #     (('JXL_STATIC_DEFINE', 1), ('JXL_THREADS_STATIC_DEFINE', 1))
++    # )
++    # extensions['jpegxl']['libraries'] = [
++    #     'jxl',
++    #     'jxl_cms',
++    #     'jxl_extras_codec',
++    #     'jxl_threads',
++    #     'brotlienc',
++    #     'brotlidec',
++    #     'brotlicommon',
++    #     'hwy',
++    #     'lcms2',
++    # ]
+     if 'brunsli' in extensions:
+         extensions['brunsli']['libraries'] = [
+             'brunslidec-c',
+@@ -533,7 +533,7 @@ def customize_build_cibuildwheel(
+             '/opt/imagecodecs/build_utils/libs_build/lib64/libz-ng.a'
+         ]
+ 
+-    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
++    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
+ 
+     extensions['lzham']['libraries'] = ['lzhamdll']
+     if sys.platform == 'darwin':
+@@ -570,8 +570,8 @@ def customize_build_cibuildwheel(
+     for dir_path in options['include_dirs']:
+         if os.path.exists(os.path.join(dir_path, 'jxl', 'types.h')):
+             break
+-    else:
+-        extensions.pop('jpegxl', None)
++    # else:
++    #     extensions.pop('jpegxl', None)
+ 
+ 
+ def customize_build_condaforge(
+@@ -600,7 +600,7 @@ def customize_build_condaforge(
+     ):
+         extensions.pop(ext, None)
+ 
+-    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
++    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
+ 
+     if sys.platform == 'win32':
+         extensions.pop('brunsli', None)  # brunsli not stable on conda-forge
+@@ -677,7 +677,7 @@ def customize_build_macports(
+     ):
+         extensions.pop(ext, None)
+ 
+-    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
++    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
+ 
+     extensions['szip']['library_dirs'] = ['%PREFIX%/lib/libaec/lib']
+     extensions['szip']['include_dirs'] = ['%PREFIX%/lib/libaec/include']
+@@ -718,7 +718,7 @@ def customize_build_mingw(
+     ):
+         extensions.pop(ext, None)
+ 
+-    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
++    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
+     extensions['jpeg2k']['include_dirs'].extend(
+         (
+             sys.prefix + '/include/openjpeg-2.3',
+diff --git a/tests/test_imagecodecs.py b/tests/test_imagecodecs.py
+index b492cfa..29e44db 100644
+--- a/tests/test_imagecodecs.py
++++ b/tests/test_imagecodecs.py
+@@ -3459,7 +3459,7 @@ def test_bmpsuite(name):
+         imagecodecs.bmp_decode(imagecodecs.bmp_encode(decoded, ppm=3780)),
+     )
+ 
+-
++@pytest.mark.skipif(not imagecodecs.JPEG8.available, reason='jpeg8 missing')
+ @pytest.mark.parametrize('optimize', [False, True])
+ @pytest.mark.parametrize('smoothing', [0, 25])
+ @pytest.mark.parametrize('subsampling', ['444', '422', '420', '411', '440'])
+@@ -6179,7 +6179,7 @@ def test_tifffile(byteorder, dtype, codec, predictor):
+ 
+ @pytest.mark.skipif(
+     not imagecodecs.LJPEG.available
+-    or imagecodecs.JPEG.legacy
++    or not imagecodecs.JPEG.available
+     or tifffile is None,
+     reason='tifffile module or LJPEG missing',
+ )
+-- 
+2.50.1 (Apple Git-155)
+

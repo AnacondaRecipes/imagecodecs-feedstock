@@ -1,0 +1,27 @@
+From fc7659e730b68d657c20ab4de68f8381078b0a0b Mon Sep 17 00:00:00 2001
+From: Ivan Iziumov <iiziumov@anaconda.com>
+Date: Mon, 16 Mar 2026 17:35:38 +0100
+Subject: [PATCH] fix libz4
+
+---
+ setup.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 4c44a64..991e055 100644
+--- a/setup.py
++++ b/setup.py
+@@ -220,8 +220,8 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
+     'ljpeg': ext(
+         sources=['3rdparty/liblj92/lj92.c'], include_dirs=['3rdparty/liblj92']
+     ),
+-    'lz4': ext(libraries=['lz4']),
+-    'lz4f': ext(libraries=['lz4']),
++    'lz4': ext(libraries=['liblz4']),
++    'lz4f': ext(libraries=['liblz4']),
+     'lzf': ext(
+         sources=['3rdparty/liblzf/lzf_c.c', '3rdparty/liblzf/lzf_d.c'],
+         include_dirs=['3rdparty/liblzf'],
+-- 
+2.50.1 (Apple Git-155)
+
