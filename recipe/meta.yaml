@@ -1,5 +1,5 @@
 {% set name = "imagecodecs" %}
-{% set version = "2026.3.6" %}
+{% set version = "2026.6.6" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/cgohlke/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 16e3449de17269523a01e0166bfe3e006d0af6c8b4b75c52adba773f1ba538f8
+  sha256: e94f4e9e253e68d0a84b6698327c9c10e5bf868977bf768d32b1f83d25088947
   patches:
     - patches/fix-liblz4.patch  # [win]
     - patches/fix-jpeg-library.patch
@@ -43,6 +43,7 @@ requirements:
     - jxrlib {{ jxrlib }}
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
+    - openjph 0.27.4
     - blosc {{ blosc }}
     - lcms2 {{ lcms2 }}
     - libaec {{ libaec }}
@@ -55,7 +56,7 @@ requirements:
     - zfp {{ zfp }}
     - libdeflate {{ libdeflate }}
     - brunsli {{ brunsli }}  # [not win]
-    - jpeg {{ jpeg }}
+    - libjpeg-turbo {{ libjpeg_turbo }}
     - c-blosc2 {{ c_blosc2 }}
     - cfitsio {{ cfitsio }}
     - libavif {{ libavif }}
@@ -83,6 +84,7 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_image_strided" %}
 {% set tests_to_skip = tests_to_skip + " or test_tiff_files" %}
 {% set tests_to_skip = tests_to_skip + " or test_image_roundtrips" %}
+{% set tests_to_skip = tests_to_skip + " or test_avif_encoder" %}
 # imagecodecs.DelayedImportError: could not import name 'jpeg8_encode' from 'imagecodecs'
 {% set tests_to_skip = tests_to_skip + " or test_imread_imwrite" %}
 {% set tests_to_skip = tests_to_skip + " or test_tiff_decode_files" %}

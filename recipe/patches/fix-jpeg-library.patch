@@ -144,15 +144,6 @@ index 6dc04bf..4c44a64 100644
  
      extensions['szip']['library_dirs'] = ['%PREFIX%/lib/libaec/lib']
      extensions['szip']['include_dirs'] = ['%PREFIX%/lib/libaec/include']
-@@ -718,7 +718,7 @@ def customize_build_mingw(
-     ):
-         extensions.pop(ext, None)
- 
--    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
-+    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
-     extensions['jpeg2k']['include_dirs'].extend(
-         (
-             sys.prefix + '/include/openjpeg-2.3',
 diff --git a/tests/test_imagecodecs.py b/tests/test_imagecodecs.py
 index b492cfa..29e44db 100644
 --- a/tests/test_imagecodecs.py
