@@ -14,7 +14,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<311]
+  skip: true  # [py<312]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
 

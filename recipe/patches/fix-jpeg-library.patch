@@ -12,21 +12,6 @@ diff --git a/setup.py b/setup.py
 index 6dc04bf..4c44a64 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -200,10 +200,10 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
-         include_dirs=['3rdparty/openjpeg'],
-         libraries=['openjp2', 'lcms2'],
-     ),
--    'jpeg8': ext(
--        sources=['imagecodecs/_jpeg8_legacy.pyx'],
--        libraries=['jpeg'],
--    ),
-+    # 'jpeg8': ext(
-+    #     sources=['imagecodecs/_jpeg8_legacy.pyx'],
-+    #     libraries=['jpeg'],
-+    # ),
-     # 'jpegli': ext(libraries=['jpegli']),
-     'jpegls': ext(libraries=['charls']),
-     'jpegxs': ext(libraries=['jxs']),
 @@ -211,7 +211,7 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
          sources=['3rdparty/jpegsof3/jpegsof3.cpp'],
          include_dirs=['3rdparty/jpegsof3'],
@@ -36,41 +21,6 @@ index 6dc04bf..4c44a64 100644
      'jpegxr': ext(
          libraries=['jpegxr', 'jxrglue'],
          define_macros=[('__ANSI__', 1)] if sys.platform != 'win32' else [],
-@@ -305,9 +305,9 @@ def customize_build_default(
-     )
-     extensions['jpegxr']['include_dirs'].append('/usr/include/jxrlib')
- 
--    if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
--        # use libjpeg-turbo 3 by default
--        extensions['jpeg8']['sources'] = []
-+    # if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
-+    #     # use libjpeg-turbo 3 by default
-+    #     extensions['jpeg8']['sources'] = []
- 
-     # these extensions are required by core dependent libraries
-     keep = {
-@@ -317,7 +317,7 @@ def customize_build_default(
-         'cms',
-         'deflate',
-         'jpeg2k',
--        'jpeg8',
-+        # 'jpeg8',
-         # 'jpegxl',  # requires v0.10
-         'jpegxr',
-         'lerc',  # requires v4
-@@ -370,9 +370,9 @@ def customize_build_cgohlke(
-     # extensions['exr']['define_macros'].append(('TINYEXR_USE_OPENMP', 1))
-     # extensions['exr']['extra_compile_args'] = ['/openmp']
- 
--    if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
--        # use libjpeg-turbo 3
--        extensions['jpeg8']['sources'] = []
-+    # if not os.environ.get('IMAGECODECS_JPEG8_LEGACY', ''):
-+    #     # use libjpeg-turbo 3
-+    #     extensions['jpeg8']['sources'] = []
- 
-     # extensions['jpegli']['include_dirs'] = [
-     #     os.path.join(inclib, 'include', 'jpegli')
 @@ -478,20 +478,20 @@ def customize_build_cgohlke(
          'deflatestatic',
          'lerc',
@@ -106,15 +56,6 @@ index 6dc04bf..4c44a64 100644
      if 'brunsli' in extensions:
          extensions['brunsli']['libraries'] = [
              'brunslidec-c',
-@@ -533,7 +533,7 @@ def customize_build_cibuildwheel(
-             '/opt/imagecodecs/build_utils/libs_build/lib64/libz-ng.a'
-         ]
- 
--    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
-+    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
- 
-     extensions['lzham']['libraries'] = ['lzhamdll']
-     if sys.platform == 'darwin':
 @@ -570,8 +570,8 @@ def customize_build_cibuildwheel(
      for dir_path in options['include_dirs']:
          if os.path.exists(os.path.join(dir_path, 'jxl', 'types.h')):
@@ -126,24 +67,6 @@ index 6dc04bf..4c44a64 100644
  
  
  def customize_build_condaforge(
-@@ -600,7 +600,7 @@ def customize_build_condaforge(
-     ):
-         extensions.pop(ext, None)
- 
--    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
-+    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
- 
-     if sys.platform == 'win32':
-         extensions.pop('brunsli', None)  # brunsli not stable on conda-forge
-@@ -677,7 +677,7 @@ def customize_build_macports(
-     ):
-         extensions.pop(ext, None)
- 
--    extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
-+    # extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
- 
-     extensions['szip']['library_dirs'] = ['%PREFIX%/lib/libaec/lib']
-     extensions['szip']['include_dirs'] = ['%PREFIX%/lib/libaec/include']
 diff --git a/tests/test_imagecodecs.py b/tests/test_imagecodecs.py
 index b492cfa..29e44db 100644
 --- a/tests/test_imagecodecs.py
