@@ -1,13 +1,13 @@
 {% set name = "imagecodecs" %}
-{% set version = "2026.6.6" %}
+{% set version = "2026.8.16" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/cgohlke/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: e94f4e9e253e68d0a84b6698327c9c10e5bf868977bf768d32b1f83d25088947
+  sha256: c230de11dc79c70ebdd046d331f13be9be3a1f5066a67ac45071e267dc9808a9
   patches:
     - patches/fix-liblz4.patch  # [win]
     - patches/fix-jpeg-library.patch
@@ -43,7 +43,6 @@ requirements:
     - jxrlib {{ jxrlib }}
     - giflib {{ giflib }}
     - openjpeg {{ openjpeg }}
-    - openjph 0.27.4
     - blosc {{ blosc }}
     - lcms2 {{ lcms2 }}
     - libaec {{ libaec }}
@@ -60,7 +59,7 @@ requirements:
     - c-blosc2 {{ c_blosc2 }}
     - cfitsio {{ cfitsio }}
     - libavif {{ libavif }}
-    - openjph
+    - openjph 0.31.0
   run:
     - python
     - libdeflate
