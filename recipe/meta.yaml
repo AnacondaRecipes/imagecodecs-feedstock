@@ -29,9 +29,9 @@ requirements:
     - python
     - setuptools
     - wheel
-    - numpy {{ numpy }}
+    - numpy >=2.1
     - cython >=3.2
-    - zlib >=1.3.1
+    - zlib {{ zlib }}
     - zlib-ng {{ zlib_ng }}
     - bzip2 {{ bzip2 }}
     - xz {{ xz }}
@@ -54,10 +54,8 @@ requirements:
     - lerc {{ lerc }}
     - zfp {{ zfp }}
     - libdeflate {{ libdeflate }}
-    - brunsli {{ brunsli }}  # [not win]
     - libjpeg-turbo {{ libjpeg_turbo }}
     - c-blosc2 {{ c_blosc2 }}
-    - cfitsio {{ cfitsio }}
     - libavif {{ libavif }}
     - openjph 0.31.0
   run:
