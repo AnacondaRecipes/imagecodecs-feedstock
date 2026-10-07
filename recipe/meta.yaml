@@ -57,7 +57,7 @@ requirements:
     - libjpeg-turbo {{ libjpeg_turbo }}
     - c-blosc2 {{ c_blosc2 }}
     - libavif {{ libavif }}
-    - openjph 0.31.0
+    - {{ pin_compatible('openjph', max_pin='x.x') }}
   run:
     - python
     - libdeflate
