@@ -11,17 +11,21 @@ diff --git a/setup.py b/setup.py
 index 4c44a64..991e055 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -220,8 +220,8 @@ EXTENSIONS: dict[str, dict[str, Any]] = {
+@@ -193,7 +193,7 @@
+         include_dirs=['3rdparty/cfitsio'],
+     ),
+     'cms': ext(libraries=['lcms2']),
+-    'czi': ext(libraries=['lz4', 'zstd']),
++    'czi': ext(libraries=['liblz4', 'zstd']),
+     'deflate': ext(libraries=['deflate']),
+     'exr': ext(libraries=['OpenEXRCore-3_4']),
+     'gif': ext(libraries=['gif']),
+@@ -230,7 +230,7 @@
      'ljpeg': ext(
          sources=['3rdparty/liblj92/lj92.c'], include_dirs=['3rdparty/liblj92']
      ),
 -    'lz4': ext(libraries=['lz4']),
--    'lz4f': ext(libraries=['lz4']),
 +    'lz4': ext(libraries=['liblz4']),
-+    'lz4f': ext(libraries=['liblz4']),
      'lzf': ext(
          sources=['3rdparty/liblzf/lzf_c.c', '3rdparty/liblzf/lzf_d.c'],
          include_dirs=['3rdparty/liblzf'],
--- 
-2.50.1 (Apple Git-155)
-
