@@ -29,7 +29,7 @@ requirements:
     - python
     - setuptools
     - wheel
-    - numpy >=2.1
+    - numpy {{ numpy }}
     - cython >=3.2
     - zlib {{ zlib }}
     - zlib-ng {{ zlib_ng }}
@@ -57,14 +57,14 @@ requirements:
     - libjpeg-turbo {{ libjpeg_turbo }}
     - c-blosc2 {{ c_blosc2 }}
     - libavif {{ libavif }}
-    - {{ pin_compatible('openjph', max_pin='x.x') }}
+    - openjph 0.31.0
   run:
     - python
     - libdeflate
     # Work around missing `run_exports` in defaults package
     - "{{ pin_compatible('brotli', max_pin='x.x') }}"
-    - numpy
-    - openjph
+    - numpy >=2.1
+    - "{{ pin_compatible('openjph', max_pin='x.x') }}"
   run_constrained:
     # mkl variant pulls in intel-openmp which conflicts with llvm-openmp
     # force to use openblas variant of numpy, scipy, etc.
