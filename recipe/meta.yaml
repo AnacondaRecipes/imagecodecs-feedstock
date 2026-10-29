@@ -13,7 +13,7 @@ source:
     - patches/fix-jpeg-library.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<312]
   entry_points:
     - imagecodecs=imagecodecs.__main__:main
