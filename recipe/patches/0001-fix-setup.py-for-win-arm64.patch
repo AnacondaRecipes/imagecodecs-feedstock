@@ -1,6 +1,6 @@
-From dc51409ded6307651a7e54906986c4900499441a Mon Sep 17 00:00:00 2001
+From 452fe8b140665d6fc3cba23c757f84b693ff11dd Mon Sep 17 00:00:00 2001
 From: Andrew Howe <ahowe@anaconda.com>
-Date: Fri, 30 Oct 2026 17:53:39 -0400
+Date: Fri, 30 Oct 2026 18:00:00 -0400
 Subject: [PATCH] fix setup.py for win-arm64
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] fix setup.py for win-arm64
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index 67db6a6..169c3ed 100644
+index 3a91795..a5f56c4 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -855,7 +855,7 @@ def customize_build_condaforge(
+@@ -708,7 +708,7 @@ def customize_build_condaforge(
  
      extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
  
@@ -20,7 +20,7 @@ index 67db6a6..169c3ed 100644
          extensions.pop('brunsli', None)  # brunsli not stable on conda-forge
  
          extensions['bz2']['libraries'] = ['bzip2']
-@@ -864,7 +864,10 @@ def customize_build_condaforge(
+@@ -717,7 +717,10 @@ def customize_build_condaforge(
                  os.environ['LIBRARY_INC'], 'openjpeg-' + os.environ['OPENJPEG']
              )
          ]
