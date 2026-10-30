@@ -11,6 +11,7 @@ source:
   patches:
     - patches/fix-liblz4.patch  # [win]
     - patches/fix-jpeg-library.patch
+    - patches/0001-fix-setup.py-for-win-arm64.patch # [win and arm64]
 
 build:
   number: 1
