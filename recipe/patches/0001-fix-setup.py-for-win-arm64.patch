@@ -1,34 +1,28 @@
-From 452fe8b140665d6fc3cba23c757f84b693ff11dd Mon Sep 17 00:00:00 2001
+From faa9214305d4c464e07deed7f30fe225475eb30b Mon Sep 17 00:00:00 2001
 From: Andrew Howe <ahowe@anaconda.com>
-Date: Fri, 30 Oct 2026 18:00:00 -0400
+Date: Fri, 30 Oct 2026 18:13:52 -0400
 Subject: [PATCH] fix setup.py for win-arm64
 
 ---
- setup.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ setup.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 3a91795..a5f56c4 100644
+index 3a91795..575713d 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -708,7 +708,7 @@ def customize_build_condaforge(
- 
-     extensions['jpeg8']['sources'] = []  # use libjpeg-turbo 3
- 
--    if sys.platform == 'win32':
-+    if sys.platform in ('win32', 'ARM64'):
-         extensions.pop('brunsli', None)  # brunsli not stable on conda-forge
- 
-         extensions['bz2']['libraries'] = ['bzip2']
-@@ -717,7 +717,10 @@ def customize_build_condaforge(
+@@ -717,7 +717,13 @@ def customize_build_condaforge(
                  os.environ['LIBRARY_INC'], 'openjpeg-' + os.environ['OPENJPEG']
              )
          ]
 -        extensions['jpegls']['libraries'] = ['charls-2-x64']
-+        if sys.platform == 'win32':
-+            extensions['jpegls']['libraries'] = ['charls-2-x64']
-+        else:
++
++        # libs differ depending on x64 or arm64.
++        import platform
++        if platform.machine() == 'ARM64':
 +            extensions['jpegls']['libraries'] = ['charls-2-arm64']
++        else:
++            extensions['jpegls']['libraries'] = ['charls-2-x64']
          extensions['png']['libraries'] = ['libpng', 'z']
          extensions['webp']['libraries'] = [
              'libwebp',
