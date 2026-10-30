@@ -3,3 +3,8 @@ build_parameters:
   - "--suppress-variables"
   - "--error-overlinking"
 
+channels:
+  - https://package-build.anaconda.com/pkg-orchestrator/v1/channels/graphs/14d788af-6ab2-470d-bffa-f689c2b7c7a6
+
+build_env_vars:
+  ANACONDA_ROCKET_ENABLE_PY315 : yes
