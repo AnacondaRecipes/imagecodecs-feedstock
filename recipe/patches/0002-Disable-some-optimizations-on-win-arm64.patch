@@ -1,0 +1,42 @@
+From 5f594a69df5c85c79c67b9269334aa7b680425dc Mon Sep 17 00:00:00 2001
+From: Andrew Howe <ahowe@anaconda.com>
+Date: Fri, 30 Oct 2026 22:21:54 -0400
+Subject: [PATCH 2/2] Disable some optimizations on win-arm64
+
+---
+ imagecodecs/imcd.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/imagecodecs/imcd.c b/imagecodecs/imcd.c
+index 5a2dd04..39becfd 100644
+--- a/imagecodecs/imcd.c
++++ b/imagecodecs/imcd.c
+@@ -2339,6 +2339,14 @@ int imcd_lzw_check(
+ }
+ 
+ 
++/* Work around MSVC ARM64 miscompilation of imcd_lzw_decode_size: with /O2
++   (with or without /GL) it returns 0 or IMCD_LZW_CORRUPT for valid streams,
++   so lzw_decode() without a preallocated output fails. /O1 and /Od are
++   correct. Observed with MSVC 14.44.35207 (HostARM64). */
++#if defined(_MSC_VER) && defined(_M_ARM64)
++#pragma optimize("", off)
++#endif
++
+ /* Return length of decompressed LZW string. */
+ ssize_t imcd_lzw_decode_size(
+     imcd_lzw_handle_t* handle,
+@@ -2484,6 +2492,10 @@ ssize_t imcd_lzw_decode_size(
+     return dstsize;
+ }
+ 
++#if defined(_MSC_VER) && defined(_M_ARM64)
++#pragma optimize("", on)
++#endif
++
+ 
+ /* Decode LZW compressed string. */
+ ssize_t imcd_lzw_decode(
+-- 
+2.51.0
+
